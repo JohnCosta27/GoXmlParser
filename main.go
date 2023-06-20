@@ -6,6 +6,7 @@ import (
 	"strings"
 
 	"johncosta.tech/xmlparse/lexer"
+	"johncosta.tech/xmlparse/parser"
 )
 
 func main() {
@@ -16,8 +17,14 @@ func main() {
   }
 
   processedData := strings.ReplaceAll(string(data), "\n", "")
+  processedData = strings.ReplaceAll(processedData, " ", "")
   tokens := lexer.Tokenize(processedData)
 
-  fmt.Printf("Tokens: %+v\n", tokens)
+  hasParsed := parser.Parse(tokens)
 
+  for _, v := range tokens {
+    fmt.Printf("Token: %+v\n", v)
+  }
+
+  fmt.Printf("Has Parsed: %v\n", hasParsed)
 }

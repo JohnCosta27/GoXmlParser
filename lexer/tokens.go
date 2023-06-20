@@ -2,24 +2,24 @@ package lexer
 
 const (
   // "<"
-  LEFT_BRACKET int = 0
+  LEFT_BRACKET string = "<"
   // ">"
-  RIGHT_BRACKET int = 1
+  RIGHT_BRACKET string = ">"
   // "/"
-  SLASH int = 2
+  SLASH string = "/"
   // any string
-  TEXT int = 3
+  TEXT string = "TEXT"
 )
 
 type Token struct {
   // Do be used with enums above.
-  token int
-  token_content string
+  Token string
+  Token_content string
 }
 
 func GetTextToken() Token {
   return Token{
-    token: TEXT,
-    token_content: "",
+    Token: TEXT,
+    Token_content: "",
   }
 }
