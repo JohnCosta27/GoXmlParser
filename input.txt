@@ -1,0 +1,3 @@
+<hello><<MoreText
+
+some text>>>//dsa
