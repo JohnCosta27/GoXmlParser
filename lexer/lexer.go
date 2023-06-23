@@ -14,8 +14,13 @@ func Tokenize(input string) []Token {
         currentToken = GetTextToken()
       }
 
-      currentToken.Token = LEFT_BRACKET
-      tokens = append(tokens, currentToken)
+      if (len(input) > 1 && string(input[1]) == "/") {
+        currentToken.Token = LEFT_AND_SLASH
+        tokens = append(tokens, currentToken)
+      } else {
+        currentToken.Token = LEFT_BRACKET
+        tokens = append(tokens, currentToken)
+      }
     case ">":
       if (currentToken.Token == TEXT) {
         tokens = append(tokens, currentToken)
@@ -23,14 +28,6 @@ func Tokenize(input string) []Token {
       }
 
       currentToken.Token = RIGHT_BRACKET
-      tokens = append(tokens, currentToken)
-    case "/":
-      if (currentToken.Token == TEXT) {
-        tokens = append(tokens, currentToken)
-        currentToken = GetTextToken()
-      }
-
-      currentToken.Token = SLASH
       tokens = append(tokens, currentToken)
     default:
       if (currentToken.Token != TEXT) {

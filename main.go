@@ -22,9 +22,11 @@ func main() {
 
   hasParsed := parser.Parse(tokens)
 
+  /*
   for _, v := range tokens {
     fmt.Printf("Token: %+v\n", v)
   }
+  */
 
   fmt.Printf("Has Parsed: %v\n", hasParsed)
 }

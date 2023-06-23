@@ -31,6 +31,7 @@ func parseTag(tokens []lexer.Token, index int) (bool, int) {
     index = newIndex
 
     parsed, newIndex = parseTag(tokens, index)
+
     if (!parsed) {
       return false, index
     }
@@ -90,16 +91,9 @@ func parseOpenTag(tokens []lexer.Token, index int) (bool, int) {
 }
 
 func parseCloseTag(tokens []lexer.Token, index int) (bool, int) {
-  if (tokens[index].Token == lexer.LEFT_BRACKET) {
+  if (tokens[index].Token == lexer.LEFT_AND_SLASH) {
 
-    if (tokens[index].Token == lexer.LEFT_BRACKET) {
-      // Build AST
-      index += 1
-    } else {
-      return false, index
-    }
-
-    if (tokens[index].Token == lexer.SLASH) {
+    if (tokens[index].Token == lexer.LEFT_AND_SLASH) {
       // Build AST
       index += 1
     } else {
