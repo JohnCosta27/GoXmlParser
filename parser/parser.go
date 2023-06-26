@@ -54,7 +54,6 @@ func parseTag(tokens []lexer.Token, index int) (bool, int) {
     }
     index = newIndex
 
-
     return true, index
 
   } else if (tokens[index].Token == lexer.TEXT) {
