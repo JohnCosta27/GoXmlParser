@@ -2,6 +2,7 @@ package parser
 
 import (
 	"johncosta.tech/xmlparse/lexer"
+	"johncosta.tech/xmlparse/utils"
 )
 
 /*
@@ -21,6 +22,11 @@ func Parse(tokens []lexer.Token) bool {
 
 // Note how we return true if none of the if statements were hit, this means that the tag could be null
 func parseTag(tokens []lexer.Token, index int) (bool, int) {
+
+  if (!utils.HasIndex(tokens, index)) {
+    return true, index
+  }
+
   // First set of OpenTag
   if (tokens[index].Token == lexer.LEFT_BRACKET) {
 
@@ -31,7 +37,6 @@ func parseTag(tokens []lexer.Token, index int) (bool, int) {
     index = newIndex
 
     parsed, newIndex = parseTag(tokens, index)
-
     if (!parsed) {
       return false, index
     }
@@ -43,6 +48,13 @@ func parseTag(tokens []lexer.Token, index int) (bool, int) {
     }
     index = newIndex
 
+    parsed, newIndex = parseTag(tokens, index)
+    if (!parsed) {
+      return false, index
+    }
+    index = newIndex
+
+
     return true, index
 
   } else if (tokens[index].Token == lexer.TEXT) {
@@ -53,6 +65,12 @@ func parseTag(tokens []lexer.Token, index int) (bool, int) {
     } else {
       return false, index
     }
+
+    parsed, newIndex := parseTag(tokens, index)
+    if (!parsed) {
+      return false, index
+    }
+    index = newIndex
 
     return true, index
 
