@@ -1,6 +1,9 @@
 package parser
 
 import (
+	"errors"
+
+	"johncosta.tech/xmlparse/AST"
 	"johncosta.tech/xmlparse/lexer"
 )
 
@@ -15,125 +18,135 @@ import (
 */
 
 func Parse(tokenList *lexer.TokenList) bool {
-  hasParsed := parseTag(tokenList)
-  return hasParsed && tokenList.Index == len(tokenList.Tokens)
+  _, err := parseTag(tokenList)
+  return err == nil && tokenList.Index == len(tokenList.Tokens)
 }
 
 // Note how we return true if none of the if statements were hit, this means that the tag could be null
-func parseTag(tokenList *lexer.TokenList) bool {
-
+func parseTag(tokenList *lexer.TokenList) (AST.Tag, error) {
+  ast := AST.Tag{}
   if (!tokenList.HasNext()) {
-    return true
+    return ast, nil
   }
 
   // First set of OpenTag
   if (tokenList.Current().Token == lexer.LEFT_BRACKET) {
+    ast.Type = AST.TagElement
 
-    parsed := parseOpenTag(tokenList)
-    if (!parsed) {
-      return false
+    openTag, err := parseOpenTag(tokenList)
+    if (err != nil) {
+      return ast, err
     }
+    ast.OpenTag = openTag
 
-    parsed = parseTag(tokenList)
-    if (!parsed) {
-      return false
+    tag, err := parseTag(tokenList)
+    if (err != nil) {
+      return ast, err
     }
+    ast.ChildTag = &tag
 
-    parsed = parseCloseTag(tokenList)
-    if (!parsed) {
-      return false
+    closeTag, err := parseCloseTag(tokenList)
+    if (err != nil) {
+      return ast, err
     }
+    ast.CloseTag = closeTag
 
-    parsed = parseTag(tokenList)
-    if (!parsed) {
-      return false
+    tag, err = parseTag(tokenList)
+    if (err != nil) {
+      return ast, err
     }
+    ast.SiblingTag = &tag
 
-    return true
-
+    return ast, nil
   } else if (tokenList.Current().Token == lexer.TEXT) {
+    ast.Type = AST.TagText
 
     if (tokenList.Current().Token == lexer.TEXT) {
       tokenList.Index += 1
     } else {
-      return false
+      return ast, errors.New("TAG | Expected text")
     }
 
-    parsed := parseTag(tokenList)
-    if (!parsed) {
-      return false
+    tag, err := parseTag(tokenList)
+    if (err != nil) {
+      return ast, err
     }
+    ast.SiblingTag = &tag
 
-    return true
+    return ast, nil
 
   }
 
-  return true
+  return ast, nil
 }
 
-func parseOpenTag(tokenList *lexer.TokenList) bool {
+func parseOpenTag(tokenList *lexer.TokenList) (AST.OpenTag, error) {
+  ast := AST.OpenTag{}
   if (tokenList.Current().Token == lexer.LEFT_BRACKET) {
 
     if (tokenList.Current().Token == lexer.LEFT_BRACKET) {
       tokenList.Index += 1
     } else {
-      return false
+      return AST.OpenTag{}, errors.New("OPEN TAG | Expect left bracket")
     }
 
-    parsed := parseText(tokenList)
-
-    if (!parsed) {
-      return false
+    text, err := parseText(tokenList)
+    if (err != nil) {
+      return ast, err
     }
+    ast.TagName = text
 
     if (tokenList.Current().Token == lexer.RIGHT_BRACKET) {
       // Build AST
       tokenList.Index += 1
     } else {
-      return false
+      return ast, errors.New("OPEN TAG | Expected right bracket")
     }
 
-    return true
+    return ast, nil
   }
-  return false
+  return ast, errors.New("CLOSE TAG | Not allowed to be null")
 }
 
-func parseCloseTag(tokenList *lexer.TokenList) bool {
+func parseCloseTag(tokenList *lexer.TokenList) (AST.CloseTag, error) {
+  ast := AST.CloseTag{}
   if (tokenList.Current().Token == lexer.LEFT_AND_SLASH) {
 
     if (tokenList.Current().Token == lexer.LEFT_AND_SLASH) {
       // Build AST
       tokenList.Index += 1
     } else {
-      return false
+      return ast, errors.New("CLOSE TAG | Expected left and slash")
     }
 
-    parsed := parseText(tokenList)
-    if (!parsed) {
-      return false
+    text, err := parseText(tokenList)
+    if (err != nil) {
+      return ast, err
     }
+    ast.TagName = text
 
     if (tokenList.Current().Token == lexer.RIGHT_BRACKET) {
       // Build AST
       tokenList.Index += 1
     } else {
-      return false
+      return ast, errors.New("CLOSE TAG | Expected right bracket")
     }
 
-    return true
+    return ast, nil
   }
-  return false
+  return ast, errors.New("CLOSE TAG | Not allowed to be null")
 }
 
-func parseText(tokenList *lexer.TokenList) bool {
+func parseText(tokenList *lexer.TokenList) (AST.Text, error) {
+  ast := AST.Text{}
   if (tokenList.Current().Token == lexer.TEXT) {
     if (tokenList.Current().Token == lexer.TEXT) {
       // Build AST
+      ast.Text = tokenList.Current().Token_content
       tokenList.Index += 1
     } else {
-      return false
+      return ast, errors.New("TEXT | Could not find text token")
     }
-    return true
   }
-  return false
+  return ast, nil
 }
