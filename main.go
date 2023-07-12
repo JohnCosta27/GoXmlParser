@@ -18,9 +18,9 @@ func main() {
 
   processedData := strings.ReplaceAll(string(data), "\n", "")
   processedData = strings.ReplaceAll(processedData, " ", "")
-  tokens := lexer.Tokenize(processedData)
+  tokenList := lexer.Tokenize(processedData)
 
-  hasParsed := parser.Parse(tokens)
+  hasParsed := parser.Parse(&tokenList)
 
   /*
   for _, v := range tokens {

@@ -1,7 +1,11 @@
 package lexer
 
-func Tokenize(input string) []Token {
+func Tokenize(input string) TokenList {
   tokens := make([]Token, 0)
+  tokenList := TokenList{
+    Index: 0,
+    Tokens: tokens,
+  }
 
   currentToken := Token{}
 
@@ -10,25 +14,25 @@ func Tokenize(input string) []Token {
     switch string(input[0]) {
     case "<":
       if (currentToken.Token == TEXT) {
-        tokens = append(tokens, currentToken)
+        tokenList.Tokens = append(tokenList.Tokens, currentToken)
         currentToken = GetTextToken()
       }
 
       if (len(input) > 1 && string(input[1]) == "/") {
         currentToken.Token = LEFT_AND_SLASH
-        tokens = append(tokens, currentToken)
+        tokenList.Tokens = append(tokenList.Tokens, currentToken)
       } else {
         currentToken.Token = LEFT_BRACKET
-        tokens = append(tokens, currentToken)
+        tokenList.Tokens = append(tokenList.Tokens, currentToken)
       }
     case ">":
       if (currentToken.Token == TEXT) {
-        tokens = append(tokens, currentToken)
+        tokenList.Tokens = append(tokenList.Tokens, currentToken)
         currentToken = GetTextToken()
       }
 
       currentToken.Token = RIGHT_BRACKET
-      tokens = append(tokens, currentToken)
+      tokenList.Tokens = append(tokenList.Tokens, currentToken)
     default:
       if (currentToken.Token != TEXT) {
         currentToken = GetTextToken()
@@ -39,7 +43,7 @@ func Tokenize(input string) []Token {
   }
 
   if (currentToken.Token == TEXT) {
-    tokens = append(tokens, currentToken)
+    tokenList.Tokens = append(tokenList.Tokens, currentToken)
   }
-  return tokens
+  return tokenList
 }

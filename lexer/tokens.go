@@ -23,3 +23,16 @@ func GetTextToken() Token {
     Token_content: "",
   }
 }
+
+type TokenList struct {
+  Index int
+  Tokens []Token
+}
+
+func (tl *TokenList) HasNext() bool {
+  return len(tl.Tokens) > tl.Index
+}
+
+func (tl *TokenList) Current() Token {
+  return tl.Tokens[tl.Index]
+}

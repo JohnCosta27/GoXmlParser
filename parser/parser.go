@@ -2,7 +2,6 @@ package parser
 
 import (
 	"johncosta.tech/xmlparse/lexer"
-	"johncosta.tech/xmlparse/utils"
 )
 
 /*
@@ -15,135 +14,126 @@ import (
   This is why there's a lot of redundant IF statements double checking the same clause.
 */
 
-func Parse(tokens []lexer.Token) bool {
-  hasParsed, index := parseTag(tokens, 0)
-  return hasParsed && index == len(tokens)
+func Parse(tokenList *lexer.TokenList) bool {
+  hasParsed := parseTag(tokenList)
+  return hasParsed
 }
 
 // Note how we return true if none of the if statements were hit, this means that the tag could be null
-func parseTag(tokens []lexer.Token, index int) (bool, int) {
+func parseTag(tokens *lexer.TokenList) bool {
 
-  if (!utils.HasIndex(tokens, index)) {
-    return true, index
+  if (!tokens.HasNext()) {
+    return true
   }
 
   // First set of OpenTag
-  if (tokens[index].Token == lexer.LEFT_BRACKET) {
+  if (tokens.Current().Token == lexer.LEFT_BRACKET) {
 
-    parsed, newIndex := parseOpenTag(tokens, index)
+    parsed := parseOpenTag(tokens)
     if (!parsed) {
-      return false, index
+      return false
     }
-    index = newIndex
 
-    parsed, newIndex = parseTag(tokens, index)
+    parsed = parseTag(tokens)
     if (!parsed) {
-      return false, index
+      return false
     }
-    index = newIndex
 
-    parsed, newIndex = parseCloseTag(tokens, index)
+    parsed = parseCloseTag(tokens)
     if (!parsed) {
-      return false, index
+      return false
     }
-    index = newIndex
 
-    parsed, newIndex = parseTag(tokens, index)
+    parsed = parseTag(tokens)
     if (!parsed) {
-      return false, index
+      return false
     }
-    index = newIndex
 
-    return true, index
+    return true
 
-  } else if (tokens[index].Token == lexer.TEXT) {
+  } else if (tokens.Current().Token == lexer.TEXT) {
 
-    if (tokens[index].Token == lexer.TEXT) {
-      // Build AST
-      index += 1
+    if (tokens.Current().Token == lexer.TEXT) {
+      tokens.Index += 1
     } else {
-      return false, index
+      return false
     }
 
-    parsed, newIndex := parseTag(tokens, index)
+    parsed := parseTag(tokens)
     if (!parsed) {
-      return false, index
+      return false
     }
-    index = newIndex
 
-    return true, index
+    return true
 
   }
 
-  return true, index
+  return true
 }
 
-func parseOpenTag(tokens []lexer.Token, index int) (bool, int) {
-  if (tokens[index].Token == lexer.LEFT_BRACKET) {
+func parseOpenTag(tokenList *lexer.TokenList) bool {
+  if (tokenList.Current().Token == lexer.LEFT_BRACKET) {
 
-    if (tokens[index].Token == lexer.LEFT_BRACKET) {
-      // Build AST
-      index += 1
+    if (tokenList.Current().Token == lexer.LEFT_BRACKET) {
+      tokenList.Index += 1
     } else {
-      return false, index
+      return false
     }
 
-    parsed, newIndex := parseText(tokens, index)
+    parsed := parseText(tokenList)
 
     if (!parsed) {
-      return false, index
+      return false
     }
-    index = newIndex
 
-    if (tokens[index].Token == lexer.RIGHT_BRACKET) {
+    if (tokenList.Current().Token == lexer.RIGHT_BRACKET) {
       // Build AST
-      index += 1
+      tokenList.Index += 1
     } else {
-      return false, index
+      return false
     }
 
-    return true, index
+    return true
   }
-  return false, index
+  return false
 }
 
-func parseCloseTag(tokens []lexer.Token, index int) (bool, int) {
-  if (tokens[index].Token == lexer.LEFT_AND_SLASH) {
+func parseCloseTag(tokenList *lexer.TokenList) bool {
+  if (tokenList.Current().Token == lexer.LEFT_AND_SLASH) {
 
-    if (tokens[index].Token == lexer.LEFT_AND_SLASH) {
+    if (tokenList.Current().Token == lexer.LEFT_AND_SLASH) {
       // Build AST
-      index += 1
+      tokenList.Index += 1
     } else {
-      return false, index
+      return false
     }
 
-    parsed, newIndex := parseText(tokens, index)
+    parsed := parseText(tokenList)
     if (!parsed) {
-      return false, index
+      return false
     }
-    index = newIndex
 
-    if (tokens[index].Token == lexer.RIGHT_BRACKET) {
+    if (tokenList.Current().Token == lexer.RIGHT_BRACKET) {
       // Build AST
-      index += 1
+      tokenList.Index += 1
     } else {
-      return false, index
+      return false
     }
 
-    return true, index
+    return true
   }
-  return false, index
+  return false
 }
 
-func parseText(tokens []lexer.Token, index int) (bool, int) {
-  if (tokens[index].Token == lexer.TEXT) {
-    if (tokens[index].Token == lexer.TEXT) {
+func parseText(tokenList *lexer.TokenList) bool {
+  if (tokenList.Current().Token == lexer.TEXT) {
+    if (tokenList.Current().Token == lexer.TEXT) {
       // Build AST
-      index += 1
+      tokenList.Index += 1
     } else {
-      return false, index
+      return false
     }
-    return true, index
+    return true
   }
-  return false, index
+  return false
 }
