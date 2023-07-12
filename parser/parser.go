@@ -20,46 +20,46 @@ func Parse(tokenList *lexer.TokenList) bool {
 }
 
 // Note how we return true if none of the if statements were hit, this means that the tag could be null
-func parseTag(tokens *lexer.TokenList) bool {
+func parseTag(tokenList *lexer.TokenList) bool {
 
-  if (!tokens.HasNext()) {
+  if (!tokenList.HasNext()) {
     return true
   }
 
   // First set of OpenTag
-  if (tokens.Current().Token == lexer.LEFT_BRACKET) {
+  if (tokenList.Current().Token == lexer.LEFT_BRACKET) {
 
-    parsed := parseOpenTag(tokens)
+    parsed := parseOpenTag(tokenList)
     if (!parsed) {
       return false
     }
 
-    parsed = parseTag(tokens)
+    parsed = parseTag(tokenList)
     if (!parsed) {
       return false
     }
 
-    parsed = parseCloseTag(tokens)
+    parsed = parseCloseTag(tokenList)
     if (!parsed) {
       return false
     }
 
-    parsed = parseTag(tokens)
+    parsed = parseTag(tokenList)
     if (!parsed) {
       return false
     }
 
     return true
 
-  } else if (tokens.Current().Token == lexer.TEXT) {
+  } else if (tokenList.Current().Token == lexer.TEXT) {
 
-    if (tokens.Current().Token == lexer.TEXT) {
-      tokens.Index += 1
+    if (tokenList.Current().Token == lexer.TEXT) {
+      tokenList.Index += 1
     } else {
       return false
     }
 
-    parsed := parseTag(tokens)
+    parsed := parseTag(tokenList)
     if (!parsed) {
       return false
     }
