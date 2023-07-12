@@ -16,7 +16,7 @@ import (
 
 func Parse(tokenList *lexer.TokenList) bool {
   hasParsed := parseTag(tokenList)
-  return hasParsed
+  return hasParsed && tokenList.Index == len(tokenList.Tokens)
 }
 
 // Note how we return true if none of the if statements were hit, this means that the tag could be null
