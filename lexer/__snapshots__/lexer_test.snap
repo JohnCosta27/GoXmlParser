@@ -1,12 +1,15 @@
 
 [TestBasicTokens - 1]
-[]lexer.Token{
-    {Token:"<", Token_content:""},
-    {Token:"TEXT", Token_content:"a"},
-    {Token:">", Token_content:""},
-    {Token:"TEXT", Token_content:"Tag"},
-    {Token:"</", Token_content:""},
-    {Token:"TEXT", Token_content:"/a"},
-    {Token:">", Token_content:""},
+lexer.TokenList{
+    Index:  0,
+    Tokens: {
+        {Token:"<", Token_content:""},
+        {Token:"TEXT", Token_content:"a"},
+        {Token:">", Token_content:""},
+        {Token:"TEXT", Token_content:"Tag"},
+        {Token:"</", Token_content:""},
+        {Token:"TEXT", Token_content:"a"},
+        {Token:">", Token_content:""},
+    },
 }
 ---

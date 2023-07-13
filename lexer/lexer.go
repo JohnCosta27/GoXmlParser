@@ -19,6 +19,7 @@ func Tokenize(input string) TokenList {
       }
 
       if (len(input) > 1 && string(input[1]) == "/") {
+        input = input[1:]
         currentToken.Token = LEFT_AND_SLASH
         tokenList.Tokens = append(tokenList.Tokens, currentToken)
       } else {
