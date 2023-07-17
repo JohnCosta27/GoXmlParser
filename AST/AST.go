@@ -7,6 +7,11 @@ const (
   TagText string = "tag_text"
 )
 
+type ASTNode interface {
+  Print(indent int)
+  Walk(func (node ASTNode))
+}
+
 type Tag struct {
   // To be used with enums above
   Type string
@@ -56,9 +61,35 @@ func (tag *Tag) Print(indent int) {
   }
 }
 
+func (tag *Tag) Walk(callback func (node ASTNode)) {
+  callback(tag)
+
+  if (tag.Type == TagElement) {
+    tag.OpenTag.Walk(callback)
+    if (tag.ChildTag != nil) {
+      tag.ChildTag.Walk(callback)
+    }
+    tag.CloseTag.Walk(callback)
+    if (tag.SiblingTag != nil) {
+      tag.SiblingTag.Walk(callback)
+    }
+  } else {
+    tag.Text.Walk(callback)
+    if (tag.SiblingTag != nil) {
+      tag.SiblingTag.Walk(callback)
+    }
+  }
+}
+
 func (openTag *OpenTag) Print(indent int) {
   fmt.Printf("%sOPEN TAG\n", getIndentString(indent))
   openTag.TagName.Print(indent + 1)
+}
+
+func (openTag *OpenTag) Walk(callback func (node ASTNode)) {
+  callback(openTag)
+
+  openTag.TagName.Walk(callback)
 }
 
 func (closeTag *CloseTag) Print(indent int) {
@@ -66,6 +97,16 @@ func (closeTag *CloseTag) Print(indent int) {
   closeTag.TagName.Print(indent + 1)
 }
 
+func (closeTag *CloseTag) Walk(callback func (node ASTNode)) {
+  callback(closeTag)
+
+  closeTag.TagName.Walk(callback)
+}
+
 func (text *Text) Print(indent int) {
   fmt.Printf("%sTEXT | %s\n", getIndentString(indent), text.Text)
+}
+
+func (text *Text) Walk(callback func (node ASTNode)) {
+  callback(text)
 }

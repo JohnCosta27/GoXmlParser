@@ -2,6 +2,7 @@ package parser
 
 import (
 	"errors"
+	"fmt"
 
 	"johncosta.tech/xmlparse/AST"
 	"johncosta.tech/xmlparse/lexer"
@@ -20,6 +21,11 @@ import (
 func Parse(tokenList *lexer.TokenList) bool {
   tag, err := parseTag(tokenList)
   tag.Print(0)
+
+  tag.Walk(func (node AST.ASTNode) {
+    fmt.Printf("%+v\n", node)
+  })
+
   return err == nil && tokenList.Index == len(tokenList.Tokens)
 }
 
