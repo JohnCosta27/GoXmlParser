@@ -2,7 +2,6 @@ package parser
 
 import (
 	"errors"
-	"fmt"
 
 	"johncosta.tech/xmlparse/AST"
 	"johncosta.tech/xmlparse/lexer"
@@ -18,15 +17,13 @@ import (
   This is why there's a lot of redundant IF statements double checking the same clause.
 */
 
-func Parse(tokenList *lexer.TokenList) bool {
+func Parse(tokenList *lexer.TokenList) (*AST.Tag, error) {
   tag, err := parseTag(tokenList)
-  tag.Print(0)
 
-  tag.Walk(func (node AST.ASTNode) {
-    fmt.Printf("%+v\n", node)
-  })
-
-  return err == nil && tokenList.Index == len(tokenList.Tokens)
+  if (err == nil && tokenList.Index == len(tokenList.Tokens)) {
+    return tag, nil
+  }
+  return nil, err
 }
 
 // Note how we return true if none of the if statements were hit, this means that the tag could be null

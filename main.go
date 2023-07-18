@@ -1,12 +1,12 @@
 package main
 
 import (
-	"fmt"
 	"os"
 	"strings"
 
 	"johncosta.tech/xmlparse/lexer"
 	"johncosta.tech/xmlparse/parser"
+	"johncosta.tech/xmlparse/semantics"
 )
 
 func main() {
@@ -20,13 +20,10 @@ func main() {
   processedData = strings.ReplaceAll(processedData, " ", "")
   tokenList := lexer.Tokenize(processedData)
 
-  hasParsed := parser.Parse(&tokenList)
-
-  /*
-  for _, v := range tokens {
-    fmt.Printf("Token: %+v\n", v)
+  ast, err := parser.Parse(&tokenList)
+  if (err != nil) {
+    panic(err)
   }
-  */
 
-  fmt.Printf("Has Parsed: %v\n", hasParsed)
+  semantics.SemanticAnalysis(ast)
 }
