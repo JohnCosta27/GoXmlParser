@@ -146,3 +146,20 @@ lexer.TokenList{
     },
 }
 ---
+
+[TestAttributes - 1]
+lexer.TokenList{
+    Index:  0,
+    Tokens: {
+        {Token:"<", Token_content:""},
+        {Token:"TEXT", Token_content:"a"},
+        {Token:" ", Token_content:" "},
+        {Token:"TEXT", Token_content:"hello"},
+        {Token:"=", Token_content:""},
+        {Token:"\"", Token_content:""},
+        {Token:"TEXT", Token_content:"world"},
+        {Token:"\"", Token_content:""},
+        {Token:">", Token_content:""},
+    },
+}
+---

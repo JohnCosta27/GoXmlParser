@@ -28,6 +28,18 @@ func TestEquals(t *testing.T) {
   }
 }
 
+func TestQuote(t *testing.T) {
+  tokens := lexer.Tokenize(`"`)
+  if (len(tokens.Tokens) != 1) {
+    t.Error(fmt.Sprintf("Expected tokens to have length of 1, not %d", len(tokens.Tokens)))
+  }
+
+  if (tokens.Tokens[0].Token != lexer.QUOTE) {
+    t.Error(fmt.Sprintf("Should have matched QUOTE, instead matched: %s", tokens.Tokens[0].Token))
+    t.FailNow()
+  }
+}
+
 func TestSpacedTokens(t *testing.T) {
   snaps.MatchSnapshot(t, lexer.Tokenize("<a>Hello    World          Bruh</a>"))
 }
@@ -63,4 +75,8 @@ func TestMultipleLines(t *testing.T) {
 
       </world></hello>
     `))
+}
+
+func TestAttributes(t *testing.T) {
+  snaps.MatchSnapshot(t, lexer.Tokenize(`<a hello="world">`))
 }

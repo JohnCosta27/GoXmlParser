@@ -9,6 +9,8 @@ const (
   LEFT_AND_SLASH string = "</"
   // "=" to be used for attributes.
   EQUAL string = "="
+  // '"' to be used for attributes.
+  QUOTE string = `"`
   // Whitespace characters (at least one, but could have more).
   WHITESPACE string = " "
   // any string
