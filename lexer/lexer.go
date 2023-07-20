@@ -19,7 +19,7 @@ func Tokenize(input string) TokenList {
   leftBracketRegex, _ := regexp.Compile("^<")
   rightBracketRegex, _ := regexp.Compile("^>")
   equalRegex, _ := regexp.Compile("^=")
-  quoteRegex, _ := regexp.Compile(`^"`)
+  stringLiteralRegex, _ := regexp.Compile(`^"[^"]*"`)
   whitespaceRegex, _ := regexp.Compile("^\\s+")
   anyCharacterRegex, _ := regexp.Compile(`^[^><"= ]+`)
 
@@ -73,13 +73,14 @@ func Tokenize(input string) TokenList {
     }
 
     {
-      quoteMatch := quoteRegex.FindStringIndex(input)
+      stringLiteralMatch := stringLiteralRegex.FindStringIndex(input)
       // Found a match right at the beginning of the string.
-      if (quoteMatch != nil && quoteMatch[0] == 0) {
+      if (stringLiteralMatch != nil && stringLiteralMatch[0] == 0) {
         tokenList.Tokens = append(tokenList.Tokens, Token{
-          Token: QUOTE,
+          Token: STRING_LITERAL,
+          Token_content: input[1:stringLiteralMatch[1] - 1],
         })
-        input = input[quoteMatch[1]:]
+        input = input[stringLiteralMatch[1]:]
         continue
       }
     }

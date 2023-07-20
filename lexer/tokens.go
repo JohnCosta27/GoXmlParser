@@ -13,6 +13,8 @@ const (
   QUOTE string = `"`
   // Whitespace characters (at least one, but could have more).
   WHITESPACE string = " "
+  // "string literal" inside double quotes
+  STRING_LITERAL string = "string_literal"
   // any string
   TEXT string = "TEXT"
 )
