@@ -13,3 +13,33 @@ lexer.TokenList{
     },
 }
 ---
+
+[TestText - 1]
+lexer.TokenList{
+    Index:  0,
+    Tokens: {
+        {Token:"TEXT", Token_content:"Just"},
+        {Token:" ", Token_content:" "},
+        {Token:"TEXT", Token_content:"Text"},
+    },
+}
+---
+
+[TestSpacedTokens - 1]
+lexer.TokenList{
+    Index:  0,
+    Tokens: {
+        {Token:"<", Token_content:""},
+        {Token:"TEXT", Token_content:"a"},
+        {Token:">", Token_content:""},
+        {Token:"TEXT", Token_content:"Hello"},
+        {Token:" ", Token_content:"    "},
+        {Token:"TEXT", Token_content:"World"},
+        {Token:" ", Token_content:"          "},
+        {Token:"TEXT", Token_content:"Bruh"},
+        {Token:"</", Token_content:""},
+        {Token:"TEXT", Token_content:"a"},
+        {Token:">", Token_content:""},
+    },
+}
+---

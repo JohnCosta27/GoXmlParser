@@ -1,8 +1,8 @@
 package main
 
 import (
+	"fmt"
 	"os"
-	"strings"
 
 	"johncosta.tech/xmlparse/lexer"
 	"johncosta.tech/xmlparse/parser"
@@ -16,8 +16,8 @@ func main() {
     panic(err)
   }
 
-  processedData := strings.ReplaceAll(string(data), "\n", "")
-  processedData = strings.ReplaceAll(processedData, " ", "")
+  processedData := string(data);
+
   tokenList := lexer.Tokenize(processedData)
 
   ast, err := parser.Parse(&tokenList)
@@ -25,5 +25,10 @@ func main() {
     panic(err)
   }
 
-  semantics.SemanticAnalysis(ast)
+  err = semantics.SemanticAnalysis(ast)
+  if (err != nil) {
+    panic(err)
+  }
+
+  fmt.Println("Successfully parsed and semantically checked!")
 }

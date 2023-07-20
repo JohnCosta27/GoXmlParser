@@ -7,6 +7,8 @@ const (
   RIGHT_BRACKET string = ">"
   // "</"
   LEFT_AND_SLASH string = "</"
+  // A single space
+  WHITESPACE string = " "
   // any string
   TEXT string = "TEXT"
 )
