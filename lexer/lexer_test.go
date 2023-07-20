@@ -16,6 +16,18 @@ func TestBasicTokens(t *testing.T) {
   snaps.MatchSnapshot(t, lexer.Tokenize("<a>Tag</a>"))
 }
 
+func TestEquals(t *testing.T) {
+  tokens := lexer.Tokenize("=")
+  if (len(tokens.Tokens) != 1) {
+    t.Error(fmt.Sprintf("Expected tokens to have length of 1, not %d", len(tokens.Tokens)))
+  }
+
+  if (tokens.Tokens[0].Token != lexer.EQUAL) {
+    t.Error(fmt.Sprintf("Should have matched EQUAL, instead matched: %s", tokens.Tokens[0].Token))
+    t.FailNow()
+  }
+}
+
 func TestSpacedTokens(t *testing.T) {
   snaps.MatchSnapshot(t, lexer.Tokenize("<a>Hello    World          Bruh</a>"))
 }

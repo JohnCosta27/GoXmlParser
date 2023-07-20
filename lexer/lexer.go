@@ -18,6 +18,7 @@ func Tokenize(input string) TokenList {
   leftAndSlashRegex, _ := regexp.Compile("^</")
   leftBracketRegex, _ := regexp.Compile("^<")
   rightBracketRegex, _ := regexp.Compile("^>")
+  equalRegex, _ := regexp.Compile("^=")
   whitespaceRegex, _ := regexp.Compile("^\\s+")
   anyCharacterRegex, _ := regexp.Compile("^[^>< ]+")
 
@@ -58,6 +59,17 @@ func Tokenize(input string) TokenList {
       }
     }
 
+    {
+      equalMatch := equalRegex.FindStringIndex(input)
+      // Found a match right at the beginning of the string.
+      if (equalMatch != nil && equalMatch[0] == 0) {
+        tokenList.Tokens = append(tokenList.Tokens, Token{
+          Token: EQUAL,
+        })
+        input = input[equalMatch[1]:]
+        continue
+      }
+    }
 
     {
       whitespaceMatch := whitespaceRegex.FindStringIndex(input)

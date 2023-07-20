@@ -7,7 +7,9 @@ const (
   RIGHT_BRACKET string = ">"
   // "</"
   LEFT_AND_SLASH string = "</"
-  // A single space
+  // "=" to be used for attributes.
+  EQUAL string = "="
+  // Whitespace characters (at least one, but could have more).
   WHITESPACE string = " "
   // any string
   TEXT string = "TEXT"
@@ -17,13 +19,6 @@ type Token struct {
   // Do be used with enums above.
   Token string
   Token_content string
-}
-
-func GetTextToken() Token {
-  return Token{
-    Token: TEXT,
-    Token_content: "",
-  }
 }
 
 type TokenList struct {
