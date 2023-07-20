@@ -43,3 +43,28 @@ lexer.TokenList{
     },
 }
 ---
+
+[TestNesting - 1]
+lexer.TokenList{
+    Index:  0,
+    Tokens: {
+        {Token:"<", Token_content:""},
+        {Token:"TEXT", Token_content:"hello"},
+        {Token:">", Token_content:""},
+        {Token:"<", Token_content:""},
+        {Token:"TEXT", Token_content:"world"},
+        {Token:">", Token_content:""},
+        {Token:"TEXT", Token_content:"Something"},
+        {Token:" ", Token_content:" "},
+        {Token:"TEXT", Token_content:"And"},
+        {Token:" ", Token_content:" "},
+        {Token:"TEXT", Token_content:"Something"},
+        {Token:"</", Token_content:""},
+        {Token:"TEXT", Token_content:"world"},
+        {Token:">", Token_content:""},
+        {Token:"</", Token_content:""},
+        {Token:"TEXT", Token_content:"hello"},
+        {Token:">", Token_content:""},
+    },
+}
+---
