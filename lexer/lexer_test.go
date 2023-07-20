@@ -38,3 +38,17 @@ func TestMatchingPriority(t *testing.T) {
   }
   
 }
+
+func TestMultipleLines(t *testing.T) {
+  snaps.MatchSnapshot(t, lexer.Tokenize(`
+    <hello>
+      <world>Something here <a> </a> ??????          
+
+
+
+
+    dsnmkadsmakkmlsdakmldsa
+
+      </world></hello>
+    `))
+}
