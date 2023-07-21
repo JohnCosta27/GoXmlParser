@@ -17,8 +17,8 @@ import (
   This is why there's a lot of redundant IF statements double checking the same clause.
 */
 
-func Parse(tokenList *lexer.TokenList) (*AST.Tag, error) {
-  tag, err := parseTag(tokenList)
+func Parse(tokenList lexer.TokenList) (*AST.Tag, error) {
+  tag, err := parseTag(&tokenList)
 
   if (err == nil && tokenList.Index == len(tokenList.Tokens)) {
     return tag, nil

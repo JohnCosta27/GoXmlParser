@@ -1,6 +1,7 @@
 package lexer
 
 import (
+	"log"
 	"regexp"
 )
 
@@ -14,16 +15,28 @@ func Tokenize(input string) TokenList {
     Tokens: tokens,
   }
 
-  // In order or priority.
-  leftAndSlashRegex, _ := regexp.Compile("^</")
-  leftBracketRegex, _ := regexp.Compile("^<")
-  rightBracketRegex, _ := regexp.Compile("^>")
-  equalRegex, _ := regexp.Compile("^=")
-  stringLiteralRegex, _ := regexp.Compile(`^"[^"]*"`)
-  whitespaceRegex, _ := regexp.Compile("^\\s+")
-  anyCharacterRegex, _ := regexp.Compile(`^[^><"= ]+`)
+  leftAndSlashRegex := regexp.MustCompile("</")
+  leftBracketRegex := regexp.MustCompile("<")
+  rightBracketRegex := regexp.MustCompile(">")
+
+  equalRegex := regexp.MustCompile("=")
+  dataRegex := regexp.MustCompile("[^<>]*<")
+
+  stringLiteralRegex := regexp.MustCompile(`"[^"]*"`)
+  nameRegex := regexp.MustCompile("[A-z]+")
+
+  whitespaceRegex := regexp.MustCompile("[\\s\n]+")
 
   for (len(input) > 0) {
+
+    {
+      whitespaceMatch := whitespaceRegex.FindStringIndex(input)
+      if (whitespaceMatch != nil && whitespaceMatch[0] == 0) {
+        input = input[whitespaceMatch[1]:]
+        continue
+      }
+    }
+
     {
       leftAndSlashMatch := leftAndSlashRegex.FindStringIndex(input)
       // Found a match right at the beginning of the string.
@@ -73,12 +86,24 @@ func Tokenize(input string) TokenList {
     }
 
     {
+      dataMatch := dataRegex.FindStringIndex(input)
+      if (dataMatch != nil && dataMatch[0] == 0) {
+        tokenList.Tokens = append(tokenList.Tokens, Token{
+          Token: DATA,
+          TokenContent: input[:dataMatch[1] - 1],
+        })
+        input = input[dataMatch[1] - 1:]
+        continue
+      }
+    }
+
+    {
       stringLiteralMatch := stringLiteralRegex.FindStringIndex(input)
       // Found a match right at the beginning of the string.
       if (stringLiteralMatch != nil && stringLiteralMatch[0] == 0) {
         tokenList.Tokens = append(tokenList.Tokens, Token{
-          Token: STRING_LITERAL,
-          Token_content: input[1:stringLiteralMatch[1] - 1],
+          Token: STRING,
+          TokenContent: input[1:stringLiteralMatch[1] - 1],
         })
         input = input[stringLiteralMatch[1]:]
         continue
@@ -86,32 +111,20 @@ func Tokenize(input string) TokenList {
     }
 
     {
-      whitespaceMatch := whitespaceRegex.FindStringIndex(input)
+      nameMatch := nameRegex.FindStringIndex(input)
+      log.Println(nameMatch)
       // Found a match right at the beginning of the string.
-      if (whitespaceMatch != nil && whitespaceMatch[0] == 0) {
+      if (nameMatch != nil && nameMatch[0] == 0) {
         tokenList.Tokens = append(tokenList.Tokens, Token{
-          Token: WHITESPACE,
-          Token_content: input[0:whitespaceMatch[1]],
+          Token: NAME,
+          TokenContent: input[:nameMatch[1]],
         })
-        input = input[whitespaceMatch[1]:]
+        input = input[nameMatch[1]:]
         continue
       }
     }
 
-    {
-      anyCharacterMatch := anyCharacterRegex.FindStringIndex(input)
-      // Found a match right at the beginning of the string.
-      if (anyCharacterMatch != nil && anyCharacterMatch[0] == 0) {
-        tokenList.Tokens = append(tokenList.Tokens, Token{
-          Token: TEXT,
-          Token_content: input[0:anyCharacterMatch[1]],
-        })
-        input = input[anyCharacterMatch[1]:]
-        continue
-      }
-    }
-
-    panic("Could not match character!")
+    panic("Could not match character! " + input)
   }
 
   return tokenList

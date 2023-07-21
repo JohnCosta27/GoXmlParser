@@ -20,7 +20,7 @@ func main() {
 
   tokenList := lexer.Tokenize(processedData)
 
-  ast, err := parser.Parse(&tokenList)
+  ast, err := parser.Parse(tokenList)
   if (err != nil) {
     panic(err)
   }

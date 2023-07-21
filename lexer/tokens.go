@@ -9,20 +9,18 @@ const (
   LEFT_AND_SLASH string = "</"
   // "=" to be used for attributes.
   EQUAL string = "="
-  // '"' to be used for attributes.
-  QUOTE string = `"`
-  // Whitespace characters (at least one, but could have more).
-  WHITESPACE string = " "
-  // "string literal" inside double quotes
-  STRING_LITERAL string = "string_literal"
-  // any string
-  TEXT string = "TEXT"
+  // String literal "Like this"
+  STRING string = "string"
+  // A contiguous string
+  NAME string = "name"
+  // Data is surrounded by >DATA<
+  DATA string = "data"
 )
 
 type Token struct {
   // Do be used with enums above.
   Token string
-  Token_content string
+  TokenContent string
 }
 
 type TokenList struct {
