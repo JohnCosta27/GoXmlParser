@@ -1,8 +1,16 @@
 package AST
 
+import (
+	"johncosta.tech/xmlparse/lexer"
+)
+
 const (
-  ContentElement string = "content-element"
-  ContentData string = "content-data"
+  ATTRIBUTE_ELEMENT string = "attribute-element"
+  
+  CONTENT_ELEMENT string = "content-element"
+  CONTENT_DATA string = "content-data"
+
+  EPSILLON string = "epsillon"
 )
 
 type ASTNode interface {
@@ -10,113 +18,134 @@ type ASTNode interface {
   Walk(func (node ASTNode))
 }
 
-type Tag struct {
+type Element struct {
   OpenTag *OpenTag
   Content *Content
   CloseTag *CloseTag
 }
 
 type OpenTag struct {
-  TagName *Text
+  NAME lexer.Token
+  Attribute *Attribute
 }
 
 type CloseTag struct {
-  TagName *Text
+  NAME lexer.Token
+}
+
+type Attribute struct {
+  // Do be used with the elements above
+  Type string
+
+  NAME lexer.Token
+  STRING lexer.Token
+
+  Attribute *Attribute
 }
 
 type Content struct {
   // Do be used with the elements above
   Type string
 
-  Element *Tag
-  Data *Data
+  Element *Element
+  DATA lexer.Token
+
   Content *Content
 }
 
-// ------ Literals ------
-
-type Data struct {
-  Text string
-}
-
-type Name struct {
-  Text string
-}
-
-type String struct {
-  Text string
-}
-
-func (tag *Tag) Print() string {
+func (tag *Element) Print() string {
   startString := ""
-  if (tag.Type == TagElement) {
-    startString += "( Tag Element "
-    startString += tag.OpenTag.Print()
-    startString += tag.ChildTag.Print()
-    startString += tag.CloseTag.Print()
-    startString += tag.SiblingTag.Print()
-    startString += ") "
-  } else if (tag.Type == TagText) {
-    startString += "( Tag Text "
-    startString += tag.Text.Print()
-    startString += tag.SiblingTag.Print()
-    startString += ") "
-  } else {
-    startString += "( TAG EPSILLON ) "
-  }
+  startString += "( Tag "
+  startString += tag.OpenTag.Print()
+  startString += tag.Content.Print()
+  startString += tag.CloseTag.Print()
+  startString += ") "
   return startString
 }
 
-func (tag *Tag) Walk(callback func (node ASTNode)) {
+func (tag *Element) Walk(callback func (node ASTNode)) {
   callback(tag)
 
-  if (tag.Type == TagElement) {
-    tag.OpenTag.Walk(callback)
-    if (tag.ChildTag != nil) {
-      tag.ChildTag.Walk(callback)
-    }
-    tag.CloseTag.Walk(callback)
-    if (tag.SiblingTag != nil) {
-      tag.SiblingTag.Walk(callback)
-    }
+  tag.OpenTag.Walk(callback)
+  tag.Content.Walk(callback)
+  tag.CloseTag.Walk(callback)
+}
+
+func (attribute *Attribute) Print() string {
+  startString := ""
+  if (attribute.Type == EPSILLON) {
+    startString += "( ATTRIBUTE EPSILLON ) "
   } else {
-    tag.Text.Walk(callback)
-    if (tag.SiblingTag != nil) {
-      tag.SiblingTag.Walk(callback)
-    }
+    startString += "( ATTRIBUTE ELEMENT "
+    startString += "( NAME ( " + attribute.NAME.TokenContent + " ) "
+    startString += "STRING ( " + attribute.STRING.TokenContent + " ) "
+    startString += attribute.Attribute.Print()
+    startString += ") "
+  }
+  
+  return startString
+}
+
+func (attribute *Attribute) Walk(callback func(node ASTNode)) {
+  callback(attribute)
+
+  if (attribute.Type == EPSILLON) {
+    return
+  }
+
+  attribute.Attribute.Walk(callback)
+}
+
+func (content *Content) Walk(callback func(node ASTNode)) {
+  callback(content)
+
+  if (content.Type == CONTENT_ELEMENT) {
+    content.Element.Walk(callback)
+    content.Content.Walk(callback)
+  } else if (content.Type == CONTENT_DATA) {
+    content.Content.Walk(callback)
   }
 }
 
+func (content *Content) Print() string {
+  startString := ""
+
+  if (content.Type == EPSILLON) {
+    startString += "( CONTENT EPSILLON ) "
+  } else if (content.Type == CONTENT_ELEMENT) {
+    startString += "( CONTENT ELEMENT "
+    startString += content.Element.Print()
+    startString += content.Content.Print()
+    startString += ") "
+  } else if (content.Type == CONTENT_DATA) {
+    startString += "( CONTENT ELEMENT "
+    startString += "( DATA ( "+ content.DATA.TokenContent + " ) "
+    startString += content.Content.Print()
+    startString += ") "
+  }
+
+  return startString
+}
+
 func (openTag *OpenTag) Print() string {
-  str := "( OPEN TAG "
-  str += openTag.TagName.Print()
-  str += ") "
-  return str
+  startString := "( OPEN TAG "
+  startString += "( NAME ( " + openTag.NAME.TokenContent + " ) "
+  startString += openTag.Attribute.Print()
+  startString += ") ) "
+  return startString
 }
 
 func (openTag *OpenTag) Walk(callback func (node ASTNode)) {
   callback(openTag)
-
-  openTag.TagName.Walk(callback)
 }
 
 func (closeTag *CloseTag) Print() string {
-  str := "( CLOSE TAG "
-  str += closeTag.TagName.Print()
-  str += ") "
-  return str
+  startString := "( CLOSE TAG "
+  startString += "( NAME ( " + closeTag.NAME.TokenContent + " ) ) "
+  startString += ") "
+  return startString
 }
 
 func (closeTag *CloseTag) Walk(callback func (node ASTNode)) {
   callback(closeTag)
-
-  closeTag.TagName.Walk(callback)
-}
-
-func (text *Text) Print() string {
-  return "( TEXT ( " + text.Text + " ) "
-}
-
-func (text *Text) Walk(callback func (node ASTNode)) {
-  callback(text)
 }

@@ -1,7 +1,6 @@
 package lexer
 
 import (
-	"log"
 	"regexp"
 )
 
@@ -112,7 +111,6 @@ func Tokenize(input string) TokenList {
 
     {
       nameMatch := nameRegex.FindStringIndex(input)
-      log.Println(nameMatch)
       // Found a match right at the beginning of the string.
       if (nameMatch != nil && nameMatch[0] == 0) {
         tokenList.Tokens = append(tokenList.Tokens, Token{

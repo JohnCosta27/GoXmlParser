@@ -1,8 +1,8 @@
 
 [TestSimple - 1]
-( Tag Element ( OPEN TAG ( TEXT ( a ) ) ( Tag Text ( TEXT ( hello ) ( TAG EPSILLON ) ) ( CLOSE TAG ( TEXT ( a ) ) ( TAG EPSILLON ) ) 
+( Tag ( OPEN TAG ( NAME ( a ) ( ATTRIBUTE EPSILLON ) ) ) ( CONTENT ELEMENT ( DATA ( hello ) ( CONTENT EPSILLON ) ) ( CLOSE TAG ( NAME ( a ) ) ) ) 
 ---
 
 [TestNesting - 1]
-( Tag Element ( OPEN TAG ( TEXT ( a ) ) ( Tag Element ( OPEN TAG ( TEXT ( b ) ) ( Tag Text ( TEXT ( Something ) ( TAG EPSILLON ) ) ( CLOSE TAG ( TEXT ( b ) ) ( TAG EPSILLON ) ) ( CLOSE TAG ( TEXT ( a ) ) ( TAG EPSILLON ) ) 
+( Tag ( OPEN TAG ( NAME ( a ) ( ATTRIBUTE EPSILLON ) ) ) ( CONTENT ELEMENT ( Tag ( OPEN TAG ( NAME ( b ) ( ATTRIBUTE EPSILLON ) ) ) ( CONTENT ELEMENT ( DATA ( Something ) ( CONTENT EPSILLON ) ) ( CLOSE TAG ( NAME ( b ) ) ) ) ( CONTENT EPSILLON ) ) ( CLOSE TAG ( NAME ( a ) ) ) ) 
 ---
