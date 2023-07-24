@@ -60,3 +60,11 @@ func TestMultipleLines(t *testing.T) {
 func TestAttributes(t *testing.T) {
   snaps.MatchSnapshot(t, lexer.Tokenize(`<a hello="world">`))
 }
+
+func TestSelfClosing(t *testing.T) {
+  snaps.MatchSnapshot(t, lexer.Tokenize(`<a hello="world" />`))
+}
+
+func TestComplex(t *testing.T) {
+  snaps.MatchSnapshot(t, lexer.Tokenize(`<a hello="dsadsadsa" /> <b>hello <c></c> </b> /> </`))
+}

@@ -16,6 +16,7 @@ func Tokenize(input string) TokenList {
 
   leftAndSlashRegex := regexp.MustCompile("</")
   leftBracketRegex := regexp.MustCompile("<")
+  slashBracketRegex := regexp.MustCompile("/>")
   rightBracketRegex := regexp.MustCompile(">")
 
   equalRegex := regexp.MustCompile("=")
@@ -49,6 +50,18 @@ func Tokenize(input string) TokenList {
     }
 
     {
+      slashBracketMatch := slashBracketRegex.FindStringIndex(input)
+      // Found a match right at the beginning of the string.
+      if (slashBracketMatch != nil && slashBracketMatch[0] == 0) {
+        tokenList.Tokens = append(tokenList.Tokens, Token{
+          Token: SLASH_AND_RIGHT,
+        })
+        input = input[slashBracketMatch[1]:]
+        continue
+      }
+    }
+
+    {
       leftBracketMatch := leftBracketRegex.FindStringIndex(input)
       // Found a match right at the beginning of the string.
       if (leftBracketMatch != nil && leftBracketMatch[0] == 0) {
@@ -62,7 +75,6 @@ func Tokenize(input string) TokenList {
 
     {
       rightBracketMatch := rightBracketRegex.FindStringIndex(input)
-      // Found a match right at the beginning of the string.
       if (rightBracketMatch != nil && rightBracketMatch[0] == 0) {
         tokenList.Tokens = append(tokenList.Tokens, Token{
           Token: RIGHT_BRACKET,
@@ -71,7 +83,7 @@ func Tokenize(input string) TokenList {
         continue
       }
     }
-
+    
     {
       equalMatch := equalRegex.FindStringIndex(input)
       // Found a match right at the beginning of the string.

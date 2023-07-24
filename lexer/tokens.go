@@ -7,6 +7,8 @@ const (
   RIGHT_BRACKET string = ">"
   // "</"
   LEFT_AND_SLASH string = "</"
+  // "/>"
+  SLASH_AND_RIGHT string = "/>"
   // "=" to be used for attributes.
   EQUAL string = "="
   // String literal "Like this"

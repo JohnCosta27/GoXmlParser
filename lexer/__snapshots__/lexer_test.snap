@@ -76,3 +76,46 @@ lexer.TokenList{
     },
 }
 ---
+
+[TestSelfClosing - 1]
+lexer.TokenList{
+    Index:  0,
+    Tokens: {
+        {Token:"<", TokenContent:""},
+        {Token:"name", TokenContent:"a"},
+        {Token:"name", TokenContent:"hello"},
+        {Token:"=", TokenContent:""},
+        {Token:"string", TokenContent:"world"},
+        {Token:"/>", TokenContent:""},
+    },
+}
+---
+
+[TestComplex - 1]
+lexer.TokenList{
+    Index:  0,
+    Tokens: {
+        {Token:"<", TokenContent:""},
+        {Token:"name", TokenContent:"a"},
+        {Token:"name", TokenContent:"hello"},
+        {Token:"=", TokenContent:""},
+        {Token:"string", TokenContent:"dsadsadsa"},
+        {Token:"/>", TokenContent:""},
+        {Token:"<", TokenContent:""},
+        {Token:"name", TokenContent:"b"},
+        {Token:">", TokenContent:""},
+        {Token:"data", TokenContent:"hello "},
+        {Token:"<", TokenContent:""},
+        {Token:"name", TokenContent:"c"},
+        {Token:">", TokenContent:""},
+        {Token:"</", TokenContent:""},
+        {Token:"name", TokenContent:"c"},
+        {Token:">", TokenContent:""},
+        {Token:"</", TokenContent:""},
+        {Token:"name", TokenContent:"b"},
+        {Token:">", TokenContent:""},
+        {Token:"/>", TokenContent:""},
+        {Token:"</", TokenContent:""},
+    },
+}
+---
