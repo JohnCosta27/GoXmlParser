@@ -1,8 +1,8 @@
 
 [TestSimple - 1]
-( Tag ( OPEN TAG ( NAME ( a ) ( ATTRIBUTE EPSILLON ) ) ) ( CONTENT ELEMENT ( DATA ( hello ) ( CONTENT EPSILLON ) ) ( CLOSE TAG ( NAME ( a ) ) ) ) 
+( Tag ( OPEN TAG ( NAME ( a ) ( ATTRIBUTE EPSILLON ) ) ) ( ELEMENT_SUFFIX ( CONTENT ELEMENT ( DATA ( hello ) ( CONTENT EPSILLON ) ) ( CLOSE TAG ( NAME ( a ) ) ) ) ) 
 ---
 
 [TestNesting - 1]
-( Tag ( OPEN TAG ( NAME ( a ) ( ATTRIBUTE EPSILLON ) ) ) ( CONTENT ELEMENT ( Tag ( OPEN TAG ( NAME ( b ) ( ATTRIBUTE EPSILLON ) ) ) ( CONTENT ELEMENT ( DATA ( Something ) ( CONTENT EPSILLON ) ) ( CLOSE TAG ( NAME ( b ) ) ) ) ( CONTENT EPSILLON ) ) ( CLOSE TAG ( NAME ( a ) ) ) ) 
+( Tag ( OPEN TAG ( NAME ( a ) ( ATTRIBUTE EPSILLON ) ) ) ( ELEMENT_SUFFIX ( CONTENT ELEMENT ( Tag ( OPEN TAG ( NAME ( b ) ( ATTRIBUTE EPSILLON ) ) ) ( ELEMENT_SUFFIX ( CONTENT ELEMENT ( DATA ( Something ) ( CONTENT EPSILLON ) ) ( CLOSE TAG ( NAME ( b ) ) ) ) ) ( CONTENT EPSILLON ) ) ( CLOSE TAG ( NAME ( a ) ) ) ) ) 
 ---

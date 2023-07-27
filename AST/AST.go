@@ -5,6 +5,9 @@ import (
 )
 
 const (
+  ELEMENT_SUFFIX_CLOSE string = "element-suffix-close"
+  ELEMENT_SUFFIX_OPEN string = "element-suffix-open"
+
   ATTRIBUTE_ELEMENT string = "attribute-element"
   
   CONTENT_ELEMENT string = "content-element"
@@ -20,11 +23,12 @@ type ASTNode interface {
 
 type Element struct {
   OpenTag *OpenTag
-  Content *Content
-  CloseTag *CloseTag
+  ElementSuffix *ElementSuffix
 }
 
 type OpenTag struct {
+  Type string
+
   NAME lexer.Token
   Attribute *Attribute
 }
@@ -43,6 +47,13 @@ type Attribute struct {
   Attribute *Attribute
 }
 
+type ElementSuffix struct {
+  Type string
+
+  Content *Content
+  CloseTag *CloseTag
+}
+
 type Content struct {
   // Do be used with the elements above
   Type string
@@ -57,8 +68,7 @@ func (tag *Element) Print() string {
   startString := ""
   startString += "( Tag "
   startString += tag.OpenTag.Print()
-  startString += tag.Content.Print()
-  startString += tag.CloseTag.Print()
+  startString += tag.ElementSuffix.Print()
   startString += ") "
   return startString
 }
@@ -67,8 +77,7 @@ func (tag *Element) Walk(callback func (node ASTNode)) {
   callback(tag)
 
   tag.OpenTag.Walk(callback)
-  tag.Content.Walk(callback)
-  tag.CloseTag.Walk(callback)
+  tag.ElementSuffix.Walk(callback)
 }
 
 func (attribute *Attribute) Print() string {
@@ -94,6 +103,22 @@ func (attribute *Attribute) Walk(callback func(node ASTNode)) {
   }
 
   attribute.Attribute.Walk(callback)
+}
+
+func (suffix *ElementSuffix) Print() string {
+  startString := ""
+  startString += "( ELEMENT_SUFFIX "
+  startString += suffix.Content.Print()
+  startString += suffix.CloseTag.Print()
+  startString += ") "
+  return startString
+}
+
+func (suffix *ElementSuffix) Walk(callback func (node ASTNode)) {
+  callback(suffix)
+
+  suffix.Content.Walk(callback)
+  suffix.CloseTag.Walk(callback)
 }
 
 func (content *Content) Walk(callback func(node ASTNode)) {

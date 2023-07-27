@@ -2,6 +2,7 @@ package parser
 
 import (
 	"errors"
+	"log"
 
 	"johncosta.tech/xmlparse/AST"
 	"johncosta.tech/xmlparse/lexer"
@@ -40,6 +41,39 @@ func parseElement(tokenList *lexer.TokenList) (*AST.Element, error) {
     }
     ast.OpenTag = openTag
 
+    elementSuffix, err := parseElementSuffix(tokenList)
+    if (err != nil) {
+      return ast, err
+    }
+    ast.ElementSuffix = elementSuffix
+
+    return ast, nil
+  }
+
+  return ast, errors.New("ELEMENT | Cannot be null")
+}
+
+func parseElementSuffix(tokenList *lexer.TokenList) (*AST.ElementSuffix, error) {
+  ast := &AST.ElementSuffix{}
+
+  log.Println(tokenList.Current().Token)
+
+  if (tokenList.Current().Token == lexer.SLASH_AND_RIGHT) {
+    ast.Type = AST.ELEMENT_SUFFIX_CLOSE
+    if (tokenList.Current().Token == lexer.SLASH_AND_RIGHT) {
+      tokenList.Index += 1
+    } else {
+      return ast, errors.New("ELEMENT SUFFIX CLOSE | Expect SLASH_AND_RIGHT")
+    }
+    return ast, nil
+  } else if (tokenList.Current().Token == lexer.RIGHT_BRACKET) {
+    ast.Type = AST.ELEMENT_SUFFIX_OPEN
+    if (tokenList.Current().Token == lexer.RIGHT_BRACKET) {
+      tokenList.Index += 1
+    } else {
+      return ast, errors.New("ELEMENT SUFFIX OPEN | Expect RIGHT_BRACKET")
+    }
+
     content, err := parseContent(tokenList)
     if (err != nil) {
       return ast, err
@@ -55,7 +89,7 @@ func parseElement(tokenList *lexer.TokenList) (*AST.Element, error) {
     return ast, nil
   }
 
-  return ast, errors.New("ELEMENT | Cannot be null")
+  return ast, errors.New("ELEMENT SUFFIX | Cannot be null")
 }
 
 func parseContent(tokenList *lexer.TokenList) (*AST.Content, error) {
@@ -120,12 +154,6 @@ func parseOpenTag(tokenList *lexer.TokenList) (*AST.OpenTag, error) {
       return ast, err
     }
     ast.Attribute = attribute
-
-    if (tokenList.Current().Token == lexer.RIGHT_BRACKET) {
-      tokenList.Index += 1
-    } else {
-      return ast, errors.New("OPEN TAG | Expected right bracket")
-    }
 
     return ast, nil
   }
