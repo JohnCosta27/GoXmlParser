@@ -2,7 +2,6 @@ package parser
 
 import (
 	"errors"
-	"log"
 
 	"johncosta.tech/xmlparse/AST"
 	"johncosta.tech/xmlparse/lexer"
@@ -55,8 +54,6 @@ func parseElement(tokenList *lexer.TokenList) (*AST.Element, error) {
 
 func parseElementSuffix(tokenList *lexer.TokenList) (*AST.ElementSuffix, error) {
   ast := &AST.ElementSuffix{}
-
-  log.Println(tokenList.Current().Token)
 
   if (tokenList.Current().Token == lexer.SLASH_AND_RIGHT) {
     ast.Type = AST.ELEMENT_SUFFIX_CLOSE
@@ -179,8 +176,8 @@ func parseAttribute(tokenList *lexer.TokenList) (*AST.Attribute, error) {
     }
 
     if (tokenList.Current().Token == lexer.STRING) {
-      tokenList.Index += 1
       ast.STRING = tokenList.Current()
+      tokenList.Index += 1
     } else {
       return ast, errors.New("ATTRIBUTE | Expected equals")
     }

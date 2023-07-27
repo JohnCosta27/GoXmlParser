@@ -1,12 +1,16 @@
 
 [TestSimple - 1]
-( Tag ( OPEN TAG ( NAME ( a ) ( ATTRIBUTE EPSILLON ) ) ) ( ELEMENT_SUFFIX ( CONTENT ELEMENT ( DATA ( hello ) ( CONTENT EPSILLON ) ) ( CLOSE TAG ( NAME ( a ) ) ) ) ) 
+( Tag ( OPEN TAG ( NAME ( a ) ( ATTRIBUTE EPSILLON ) ) ) ( ELEMTN_SUFFIX_OPEN ( CONTENT ELEMENT ( DATA ( hello ) ( CONTENT EPSILLON ) ) ( CLOSE TAG ( NAME ( a ) ) ) ) ) 
 ---
 
 [TestNesting - 1]
-( Tag ( OPEN TAG ( NAME ( a ) ( ATTRIBUTE EPSILLON ) ) ) ( ELEMENT_SUFFIX ( CONTENT ELEMENT ( Tag ( OPEN TAG ( NAME ( b ) ( ATTRIBUTE EPSILLON ) ) ) ( ELEMENT_SUFFIX ( CONTENT ELEMENT ( DATA ( Something ) ( CONTENT EPSILLON ) ) ( CLOSE TAG ( NAME ( b ) ) ) ) ) ( CONTENT EPSILLON ) ) ( CLOSE TAG ( NAME ( a ) ) ) ) ) 
+( Tag ( OPEN TAG ( NAME ( a ) ( ATTRIBUTE EPSILLON ) ) ) ( ELEMTN_SUFFIX_OPEN ( CONTENT ELEMENT ( Tag ( OPEN TAG ( NAME ( b ) ( ATTRIBUTE EPSILLON ) ) ) ( ELEMTN_SUFFIX_OPEN ( CONTENT ELEMENT ( DATA ( Something ) ( CONTENT EPSILLON ) ) ( CLOSE TAG ( NAME ( b ) ) ) ) ) ( CONTENT EPSILLON ) ) ( CLOSE TAG ( NAME ( a ) ) ) ) ) 
 ---
 
 [TestSelfClosing - 1]
-( Tag ( OPEN TAG ( NAME ( atag ) ( ATTRIBUTE ELEMENT ( NAME ( bruh ) STRING (  ) ( ATTRIBUTE EPSILLON ) ) ) ) ( ELEMENT_SUFFIX_CLOSE ) ) 
+( Tag ( OPEN TAG ( NAME ( atag ) ( ATTRIBUTE ELEMENT ( NAME ( bruh ) STRING ( hello-world ) ( ATTRIBUTE EPSILLON ) ) ) ) ( ELEMENT_SUFFIX_CLOSE ) ) 
+---
+
+[TestAttributes - 1]
+( Tag ( OPEN TAG ( NAME ( a ) ( ATTRIBUTE ELEMENT ( NAME ( hello ) STRING ( world ) ( ATTRIBUTE EPSILLON ) ) ) ) ( ELEMTN_SUFFIX_OPEN ( CONTENT EPSILLON ) ( CLOSE TAG ( NAME ( a ) ) ) ) ) 
 ---
