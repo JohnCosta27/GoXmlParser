@@ -106,19 +106,26 @@ func (attribute *Attribute) Walk(callback func(node ASTNode)) {
 }
 
 func (suffix *ElementSuffix) Print() string {
-  startString := ""
-  startString += "( ELEMENT_SUFFIX "
-  startString += suffix.Content.Print()
-  startString += suffix.CloseTag.Print()
-  startString += ") "
-  return startString
+  if (suffix.Type == ELEMENT_SUFFIX_OPEN) {
+    startString := "( ELEMTN_SUFFIX_OPEN "
+    startString += suffix.Content.Print()
+    startString += suffix.CloseTag.Print()
+    startString += ") "
+    return startString
+  }
+
+  return "( ELEMENT_SUFFIX_CLOSE ) "
 }
 
 func (suffix *ElementSuffix) Walk(callback func (node ASTNode)) {
   callback(suffix)
 
-  suffix.Content.Walk(callback)
-  suffix.CloseTag.Walk(callback)
+  if (suffix.Type == ELEMENT_SUFFIX_OPEN) {
+    suffix.Content.Walk(callback)
+    suffix.CloseTag.Walk(callback)
+  } else {
+    // Nothing to do
+  }
 }
 
 func (content *Content) Walk(callback func(node ASTNode)) {

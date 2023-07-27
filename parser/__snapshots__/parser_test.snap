@@ -6,3 +6,7 @@
 [TestNesting - 1]
 ( Tag ( OPEN TAG ( NAME ( a ) ( ATTRIBUTE EPSILLON ) ) ) ( ELEMENT_SUFFIX ( CONTENT ELEMENT ( Tag ( OPEN TAG ( NAME ( b ) ( ATTRIBUTE EPSILLON ) ) ) ( ELEMENT_SUFFIX ( CONTENT ELEMENT ( DATA ( Something ) ( CONTENT EPSILLON ) ) ( CLOSE TAG ( NAME ( b ) ) ) ) ) ( CONTENT EPSILLON ) ) ( CLOSE TAG ( NAME ( a ) ) ) ) ) 
 ---
+
+[TestSelfClosing - 1]
+( Tag ( OPEN TAG ( NAME ( atag ) ( ATTRIBUTE ELEMENT ( NAME ( bruh ) STRING (  ) ( ATTRIBUTE EPSILLON ) ) ) ) ( ELEMENT_SUFFIX_CLOSE ) ) 
+---

@@ -32,3 +32,14 @@ func TestNesting(t *testing.T) {
 
   snaps.MatchSnapshot(t, ast.Print())
 }
+
+func TestSelfClosing(t *testing.T) {
+  ast, err := Parse(lexer.Tokenize(`<atag bruh="hello-world" />`))
+
+  if (err != nil) {
+    t.Error(err)
+    t.FailNow()
+  }
+
+  snaps.MatchSnapshot(t, ast.Print())
+}
