@@ -130,12 +130,12 @@ func TestNestingAndSibling(t *testing.T) {
 
   jsonObjectB, ok := jsonObjectA.Map["b"].(JSONObjectValue)
   if (!ok) {
-    t.Log("Expected `c` to be of type JSONObjectValue")
+    t.Log("Expected `b` to be of type JSONObjectValue")
     t.FailNow()
   }
 
   if (len(jsonObjectB.Map) != 2) {
-    t.Logf("Expected `c` to have 2 elements, it instead has %d\n", len(jsonObjectB.Map))
+    t.Logf("Expected `b` to have 2 elements, it instead has %d\n", len(jsonObjectB.Map))
     t.FailNow()
   }
 }

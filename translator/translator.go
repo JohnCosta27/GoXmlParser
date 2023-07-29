@@ -29,7 +29,7 @@ func translateElement(element *AST.Element) JSONObjectValue {
     return jsonObject
   }
 
-  content := element.ElementSuffix.Content
+  content := element.ElementSuffix.Content.Content
   for (content.Type == AST.CONTENT_ELEMENT) {
     v, ok := c.(JSONObjectValue)
     if (!ok) {
