@@ -88,6 +88,17 @@ func TestSibling(t *testing.T) {
 
 }
 
+func TestMedium(t *testing.T) {
+  ast, err := Parse(lexer.Tokenize("<a><b>hello</b><c><d>world</d><e>world2</e><f>world3</f></c></a>"))
+
+  if err != nil {
+    t.Error(err)
+    t.FailNow()
+  }
+
+  snaps.MatchSnapshot(t, ast.Print())
+}
+
 func TestBigObject(t *testing.T) {
   ast, err := Parse(lexer.Tokenize(`<Tests xmlns="http://www.adatum.com">
   <Test TestId="0001" TestType="CMD">
