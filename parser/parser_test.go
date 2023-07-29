@@ -5,6 +5,7 @@ import (
 	"testing"
 
 	"github.com/gkampitakis/go-snaps/snaps"
+	"johncosta.tech/xmlparse/AST"
 	"johncosta.tech/xmlparse/lexer"
 )
 
@@ -53,6 +54,38 @@ func TestSelfClosing(t *testing.T) {
   }
 
   snaps.MatchSnapshot(t, ast.Print())
+}
+
+func TestSibling(t *testing.T) {
+  ast, err := Parse(lexer.Tokenize("<a><b>Hello</b><c>World</c></a>"))
+
+  if (err != nil) {
+    t.Error(err)
+    t.FailNow()
+  }
+
+  if (ast.ElementSuffix.Content.Type != AST.CONTENT_ELEMENT) {
+    t.Log("Expected content to be element")
+    t.FailNow()
+  }
+
+  el := ast.ElementSuffix.Content.Element
+  if (el.OpenTag.NAME.TokenContent != "b") {
+    t.Log("Expected first sibling to be `b`")
+    t.FailNow()
+  }
+
+  otherEl := ast.ElementSuffix.Content.Content
+  if (otherEl.Type != AST.CONTENT_ELEMENT) {
+    t.Log("Expected content to be element")
+    t.FailNow()
+  }
+
+  if (otherEl.Element.OpenTag.NAME.TokenContent != "c") {
+    t.Log("Expected first sibling to be `c`")
+    t.FailNow()
+  }
+
 }
 
 func TestBigObject(t *testing.T) {

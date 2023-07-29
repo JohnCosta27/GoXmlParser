@@ -1,6 +1,7 @@
 package translator
 
 import (
+	"log"
 	"testing"
 )
 
@@ -72,31 +73,29 @@ func TestDeepNesting(t *testing.T) {
 
 }
 
-/*
-func TestTranslateNesting(t *testing.T) {
-  json, err := TranslateJson("<a><b>Hello</b></a>")
+func TestSiblingElements(t *testing.T) {
+  json, err := TranslateJson("<a><b>hello</b><c>world</c></a>")
   if (err != nil) {
     t.Log("Expected error to be nil")
     t.FailNow()
   }
 
-  if (json != `{"a":{"b":"Hello"}}`) {
-    t.Logf("Incorrect json output, got %s", json)
+  jsonObjectA, ok := json.Map["a"].(JSONObjectValue)
+  if (!ok) {
+    t.Log("Expected `a` to be of type JSONObjectValue")
     t.FailNow()
   }
+
+  log.Println(jsonObjectA.Value.Map)
+
+  if (jsonObjectA.Value.Map["b"].Print() != "hello") {
+    t.Logf(`Expected "hello" but found %s` + "\n", json.Map["a"])
+    t.FailNow()
+  }
+
+  if (jsonObjectA.Value.Map["c"].Print() != "world") {
+    t.Logf(`Expected "world" but found %s` + "\n", json.Map["a"])
+    t.FailNow()
+  }
+
 }
-
-
-func TestTranslateArray(t *testing.T) {
-  json, err := TranslateJson("<a><b>Hello</b><b>bruh</b></a>")
-  if (err != nil) {
-    t.Log("Expected error to be nil")
-    t.FailNow()
-  }
-
-  if (json != `{"a":{"b":"Hello"}}`) {
-    t.Logf("Incorrect json output, got %s", json)
-    t.FailNow()
-  }
-}
-*/
