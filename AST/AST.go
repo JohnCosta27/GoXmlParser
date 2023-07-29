@@ -18,7 +18,7 @@ const (
 
 type ASTNode interface {
   Print() string
-  Walk(func (node ASTNode))
+  Walk(func (node ASTNode), func (node ASTNode))
 }
 
 type Element struct {
@@ -73,11 +73,13 @@ func (tag *Element) Print() string {
   return startString
 }
 
-func (tag *Element) Walk(callback func (node ASTNode)) {
-  callback(tag)
+func (tag *Element) Walk(enter func (node ASTNode), exit func (node ASTNode)) {
+  enter(tag)
 
-  tag.OpenTag.Walk(callback)
-  tag.ElementSuffix.Walk(callback)
+  tag.OpenTag.Walk(enter, exit)
+  tag.ElementSuffix.Walk(enter, exit)
+
+  exit(tag)
 }
 
 func (attribute *Attribute) Print() string {
@@ -95,14 +97,14 @@ func (attribute *Attribute) Print() string {
   return startString
 }
 
-func (attribute *Attribute) Walk(callback func(node ASTNode)) {
-  callback(attribute)
+func (attribute *Attribute) Walk(enter func (node ASTNode), exit func (node ASTNode)) {
+  enter(attribute)
 
-  if (attribute.Type == EPSILLON) {
-    return
+  if (attribute.Type != EPSILLON) {
+    attribute.Attribute.Walk(enter, exit)
   }
 
-  attribute.Attribute.Walk(callback)
+  exit(attribute)
 }
 
 func (suffix *ElementSuffix) Print() string {
@@ -117,26 +119,30 @@ func (suffix *ElementSuffix) Print() string {
   return "( ELEMENT_SUFFIX_CLOSE ) "
 }
 
-func (suffix *ElementSuffix) Walk(callback func (node ASTNode)) {
-  callback(suffix)
+func (suffix *ElementSuffix) Walk(enter func (node ASTNode), exit func (node ASTNode)) {
+  enter(suffix)
 
   if (suffix.Type == ELEMENT_SUFFIX_OPEN) {
-    suffix.Content.Walk(callback)
-    suffix.CloseTag.Walk(callback)
+    suffix.Content.Walk(enter, exit)
+    suffix.CloseTag.Walk(enter, exit)
   } else {
     // Nothing to do
   }
+
+  exit(suffix)
 }
 
-func (content *Content) Walk(callback func(node ASTNode)) {
-  callback(content)
+func (content *Content) Walk(enter func (node ASTNode), exit func (node ASTNode)) {
+  enter(content)
 
   if (content.Type == CONTENT_ELEMENT) {
-    content.Element.Walk(callback)
-    content.Content.Walk(callback)
+    content.Element.Walk(enter, exit)
+    content.Content.Walk(enter, exit)
   } else if (content.Type == CONTENT_DATA) {
-    content.Content.Walk(callback)
+    content.Content.Walk(enter, exit)
   }
+
+  exit(content)
 }
 
 func (content *Content) Print() string {
@@ -167,8 +173,9 @@ func (openTag *OpenTag) Print() string {
   return startString
 }
 
-func (openTag *OpenTag) Walk(callback func (node ASTNode)) {
-  callback(openTag)
+func (openTag *OpenTag) Walk(enter func (node ASTNode), exit func (node ASTNode)) {
+  enter(openTag)
+  exit(openTag)
 }
 
 func (closeTag *CloseTag) Print() string {
@@ -178,6 +185,7 @@ func (closeTag *CloseTag) Print() string {
   return startString
 }
 
-func (closeTag *CloseTag) Walk(callback func (node ASTNode)) {
-  callback(closeTag)
+func (closeTag *CloseTag) Walk(enter func (node ASTNode), exit func (node ASTNode)) {
+  enter(closeTag)
+  exit(closeTag)
 }
