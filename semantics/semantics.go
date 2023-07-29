@@ -20,10 +20,10 @@ func SemanticAnalysis(ast *AST.Element) error {
     case *AST.CloseTag:
       popped := stack.Pop()
       if (node.(*AST.CloseTag).NAME.TokenContent != popped) {
-        err = errors.New("I expected: " + popped + " and got: " + node.(*AST.CloseTag).NAME.TokenContent)
+        err = errors.New("Semantics | Expected: " + popped + " and got: " + node.(*AST.CloseTag).NAME.TokenContent)
       }
     }
-  })
+  }, func(node AST.ASTNode) {})
 
   return err
 }

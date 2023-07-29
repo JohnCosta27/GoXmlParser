@@ -9,12 +9,18 @@ import (
 func TestTranslateSimple(t *testing.T) {
   json, err := TranslateJson("<a>hello</a>")
   if (err != nil) {
-    t.Log("Expected error to be nil")
+    t.Log(err)
     t.FailNow()
   }
 
-  if (json.Map["a"].Print() != "hello") {
-    t.Logf(`Expected "hello" but found %s` + "\n", json.Map["a"])
+  stringA, ok := json.Map["a"].(JSONStringValue)
+  if (!ok) {
+    t.Log("Expected `a` to be of type JSONStringValue")
+    t.FailNow()
+  }
+
+  if (stringA.Value != "hello") {
+    t.Logf(`Expected "hello" but found %s` + "\n", stringA.Value)
     t.FailNow()
   }
 
@@ -32,19 +38,25 @@ func TestNesting(t *testing.T) {
     t.Log("Expected `a` to be of type JSONObjectValue")
     t.FailNow()
   }
+
+  stringB, ok := jsonObjectA.Map["b"].(JSONStringValue)
+  if (!ok) {
+    t.Log("Expected `v` to be of type JSONStringValue")
+    t.FailNow()
+  }
   
 
-  if (jsonObjectA.Map["b"].Print() != "hello") {
-    t.Logf(`Expected "hello" but found %s` + "\n", json.Map["a"])
+  if (stringB.Value != "hello") {
+    t.Logf(`Expected "hello" but found %s` + "\n", stringB.Value)
     t.FailNow()
   }
 
 }
 
 func TestDeepNesting(t *testing.T) {
-  json, err := TranslateJson("<a><b><c><d>hello</d></d></b></a>")
+  json, err := TranslateJson("<a><b><c><d>hello</d></c></b></a>")
   if (err != nil) {
-    t.Log("Expected error to be nil")
+    t.Log(err)
     t.FailNow()
   }
 
@@ -66,9 +78,14 @@ func TestDeepNesting(t *testing.T) {
     t.FailNow()
   }
   
+  stringD, ok := jsonObjectC.Map["d"].(JSONStringValue)
+  if (!ok) {
+    t.Log("Expected `d` to be of type JSONStringValue")
+    t.FailNow()
+  }
 
-  if (jsonObjectC.Map["d"].Print() != "hello") {
-    t.Logf(`Expected "hello" but found %s` + "\n", json.Map["a"])
+  if (stringD.Value != "hello") {
+    t.Logf(`Expected "hello" but found %s` + "\n", stringD.Value)
     t.FailNow()
   }
 
@@ -77,7 +94,7 @@ func TestDeepNesting(t *testing.T) {
 func TestSiblingElements(t *testing.T) {
   json, err := TranslateJson("<a><b>hello</b><c>world</c></a>")
   if (err != nil) {
-    t.Log("Expected error to be nil")
+    t.Log(err)
     t.FailNow()
   }
 
@@ -92,12 +109,24 @@ func TestSiblingElements(t *testing.T) {
     t.FailNow()
   }
 
-  if (jsonObjectA.Map["b"].Print() != "hello") {
+  stringB, ok := jsonObjectA.Map["b"].(JSONStringValue)
+  if (!ok) {
+    t.Log("Expected `b` to be of type JSONStringValue")
+    t.FailNow()
+  }
+
+  stringC, ok := jsonObjectA.Map["c"].(JSONStringValue)
+  if (!ok) {
+    t.Log("Expected `c` to be of type JSONStringValue")
+    t.FailNow()
+  }
+
+  if (stringB.Value != "hello") {
     t.Logf(`Expected "hello" but found %s` + "\n", json.Map["a"])
     t.FailNow()
   }
 
-  if (jsonObjectA.Map["c"].Print() != "world") {
+  if (stringC.Value != "world") {
     t.Logf(`Expected "world" but found %s` + "\n", json.Map["a"])
     t.FailNow()
   }
@@ -115,7 +144,7 @@ func TestNestingAndSibling(t *testing.T) {
     </c>
   </a>`)
   if (err != nil) {
-    t.Log("Expected error to be nil")
+    t.Log(err)
     t.FailNow()
   }
 

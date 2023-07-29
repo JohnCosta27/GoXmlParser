@@ -4,10 +4,16 @@ import (
 	"johncosta.tech/xmlparse/AST"
 	"johncosta.tech/xmlparse/lexer"
 	"johncosta.tech/xmlparse/parser"
+	"johncosta.tech/xmlparse/semantics"
 )
 
 func TranslateJson(xmlString string) (JSONObjectValue, error) {
   ast, err := parser.Parse(lexer.Tokenize(xmlString))
+  if (err != nil) {
+    return JSONObjectValue{}, err
+  }
+
+  err = semantics.SemanticAnalysis(ast)
   if (err != nil) {
     return JSONObjectValue{}, err
   }
