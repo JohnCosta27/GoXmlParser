@@ -17,7 +17,7 @@ const (
 )
 
 type ASTNode interface {
-  Print() string
+  Print(indent int) string
   Walk(func (node ASTNode), func (node ASTNode))
 }
 
@@ -64,12 +64,19 @@ type Content struct {
   Content *Content
 }
 
-func (tag *Element) Print() string {
-  startString := ""
-  startString += "( Tag "
-  startString += tag.OpenTag.Print()
-  startString += tag.ElementSuffix.Print()
-  startString += ") "
+func getIndentString(indent int) string {
+  indents := ""
+  for i := 0; i < indent; i++ {
+    indents += " "
+  }
+  return indents
+}
+
+func (tag *Element) Print(indent int) string {
+  indentString := getIndentString(indent)
+  startString := indentString + "Tag\n"
+  startString += tag.OpenTag.Print(indent + 1)
+  startString += tag.ElementSuffix.Print(indent + 1)
   return startString
 }
 
@@ -82,19 +89,17 @@ func (tag *Element) Walk(enter func (node ASTNode), exit func (node ASTNode)) {
   exit(tag)
 }
 
-func (attribute *Attribute) Print() string {
-  startString := ""
-  if (attribute.Type == EPSILLON) {
-    startString += "( ATTRIBUTE EPSILLON ) "
-  } else {
-    startString += "( ATTRIBUTE ELEMENT "
-    startString += "( NAME ( " + attribute.NAME.TokenContent + " ) "
-    startString += "STRING ( " + attribute.STRING.TokenContent + " ) "
-    startString += attribute.Attribute.Print()
-    startString += ") "
+func (attribute *Attribute) Print(indent int) string {
+  if (attribute.Type == ATTRIBUTE_ELEMENT) {
+    indentString := getIndentString(indent)
+    startString := indentString + "Attributes\n"
+    startString += indentString + "Name: " + attribute.NAME.TokenContent + "\n"
+    startString += indentString + "String: " + attribute.STRING.TokenContent + "\n"
+    startString += attribute.Attribute.Print(indent + 1)
+    return startString
   }
   
-  return startString
+  return ""
 }
 
 func (attribute *Attribute) Walk(enter func (node ASTNode), exit func (node ASTNode)) {
@@ -107,16 +112,17 @@ func (attribute *Attribute) Walk(enter func (node ASTNode), exit func (node ASTN
   exit(attribute)
 }
 
-func (suffix *ElementSuffix) Print() string {
+func (suffix *ElementSuffix) Print(indent int) string {
+  indentString := getIndentString(indent)
+
   if (suffix.Type == ELEMENT_SUFFIX_OPEN) {
-    startString := "( ELEMTN_SUFFIX_OPEN "
-    startString += suffix.Content.Print()
-    startString += suffix.CloseTag.Print()
-    startString += ") "
+    startString := indentString + "ElementSuffixOpen\n"
+    startString += suffix.Content.Print(indent + 1)
+    startString += suffix.CloseTag.Print(indent + 1)
     return startString
   }
 
-  return "( ELEMENT_SUFFIX_CLOSE ) "
+  return indentString + "ElementSuffixClose\n"
 }
 
 func (suffix *ElementSuffix) Walk(enter func (node ASTNode), exit func (node ASTNode)) {
@@ -145,31 +151,29 @@ func (content *Content) Walk(enter func (node ASTNode), exit func (node ASTNode)
   exit(content)
 }
 
-func (content *Content) Print() string {
-  startString := ""
+func (content *Content) Print(indent int) string {
+  indentString := getIndentString(indent)
 
-  if (content.Type == EPSILLON) {
-    startString += "( CONTENT EPSILLON ) "
-  } else if (content.Type == CONTENT_ELEMENT) {
-    startString += "( CONTENT ELEMENT "
-    startString += content.Element.Print()
-    startString += content.Content.Print()
-    startString += ") "
+  if (content.Type == CONTENT_ELEMENT) {
+    startString := indentString + "ContentElement\n"
+    startString += content.Element.Print(indent + 1)
+    startString += content.Content.Print(indent + 1)
+    return startString
   } else if (content.Type == CONTENT_DATA) {
-    startString += "( CONTENT ELEMENT "
-    startString += "( DATA ( "+ content.DATA.TokenContent + " ) "
-    startString += content.Content.Print()
-    startString += ") "
+    startString := indentString + "ContentData\n"
+    startString += indentString + "Data: " + content.DATA.TokenContent + "\n"
+    startString += content.Content.Print(indent + 1)
+    return startString
   }
 
-  return startString
+  return ""
 }
 
-func (openTag *OpenTag) Print() string {
-  startString := "( OPEN TAG "
-  startString += "( NAME ( " + openTag.NAME.TokenContent + " ) "
-  startString += openTag.Attribute.Print()
-  startString += ") ) "
+func (openTag *OpenTag) Print(indent int) string {
+  indentString := getIndentString(indent)
+  startString := indentString + "OpenTag\n"
+  startString += indentString + "Name: " + openTag.NAME.TokenContent + "\n"
+  startString += openTag.Attribute.Print(indent + 1)
   return startString
 }
 
@@ -178,10 +182,10 @@ func (openTag *OpenTag) Walk(enter func (node ASTNode), exit func (node ASTNode)
   exit(openTag)
 }
 
-func (closeTag *CloseTag) Print() string {
-  startString := "( CLOSE TAG "
-  startString += "( NAME ( " + closeTag.NAME.TokenContent + " ) ) "
-  startString += ") "
+func (closeTag *CloseTag) Print(indent int) string {
+  indentString := getIndentString(indent)
+  startString := indentString + "CloseTag\n"
+  startString += indentString + "Name: " + closeTag.NAME.TokenContent + "\n"
   return startString
 }
 

@@ -103,7 +103,15 @@ func TestSiblingElements(t *testing.T) {
 }
 
 func TestNestingAndSibling(t *testing.T) {
-  json, err := TranslateJson("<a><b>hello</b><c><d>world</d><e>world2</e><f>world3</f></c></a>")
+  json, err := TranslateJson(`<a>
+    <b>
+      <d>hello</d>
+      <e>world</e>
+    </b>
+    <c>
+      World
+    </c>
+  </a>`)
   if (err != nil) {
     t.Log("Expected error to be nil")
     t.FailNow()
@@ -120,21 +128,14 @@ func TestNestingAndSibling(t *testing.T) {
     t.FailNow()
   }
 
-  if (jsonObjectA.Map["b"].Print() != "hello") {
-    t.Logf(`Expected "hello" but found %s` + "\n", json.Map["a"])
-    t.FailNow()
-  }
-
-  jsonObjectC, ok := jsonObjectA.Map["c"].(JSONObjectValue)
+  jsonObjectB, ok := jsonObjectA.Map["b"].(JSONObjectValue)
   if (!ok) {
     t.Log("Expected `c` to be of type JSONObjectValue")
     t.FailNow()
   }
 
-  t.Log(jsonObjectC.Map)
-
-  if (len(jsonObjectC.Map) != 3) {
-    t.Logf("Expected `c` to have 3 elements, it instead has %d\n", len(jsonObjectC.Map))
+  if (len(jsonObjectB.Map) != 2) {
+    t.Logf("Expected `c` to have 2 elements, it instead has %d\n", len(jsonObjectB.Map))
     t.FailNow()
   }
 }

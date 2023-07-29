@@ -20,7 +20,7 @@ func TestSimple(t *testing.T) {
     t.FailNow()
   }
 
-  snaps.MatchSnapshot(t, ast.Print())
+  snaps.MatchSnapshot(t, ast.Print(0))
 }
 
 func TestNesting(t *testing.T) {
@@ -31,7 +31,7 @@ func TestNesting(t *testing.T) {
     t.FailNow()
   }
 
-  snaps.MatchSnapshot(t, ast.Print())
+  snaps.MatchSnapshot(t, ast.Print(0))
 }
 
 func TestAttributes(t *testing.T) {
@@ -42,7 +42,7 @@ func TestAttributes(t *testing.T) {
     t.FailNow()
   }
 
-  snaps.MatchSnapshot(t, ast.Print())
+  snaps.MatchSnapshot(t, ast.Print(0))
 }
 
 func TestSelfClosing(t *testing.T) {
@@ -53,7 +53,7 @@ func TestSelfClosing(t *testing.T) {
     t.FailNow()
   }
 
-  snaps.MatchSnapshot(t, ast.Print())
+  snaps.MatchSnapshot(t, ast.Print(0))
 }
 
 func TestSibling(t *testing.T) {
@@ -96,7 +96,7 @@ func TestMedium(t *testing.T) {
     t.FailNow()
   }
 
-  snaps.MatchSnapshot(t, ast.Print())
+  snaps.MatchSnapshot(t, ast.Print(0))
 }
 
 func TestBigObject(t *testing.T) {
@@ -144,5 +144,5 @@ func TestBigObject(t *testing.T) {
     t.FailNow()
   }
 
-  snaps.MatchSnapshot(t, ast.Print())
+  snaps.MatchSnapshot(t, ast.Print(0))
 }

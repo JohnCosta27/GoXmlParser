@@ -1,8 +1,6 @@
 package translator
 
 import (
-	"log"
-
 	"johncosta.tech/xmlparse/AST"
 	"johncosta.tech/xmlparse/lexer"
 	"johncosta.tech/xmlparse/parser"
