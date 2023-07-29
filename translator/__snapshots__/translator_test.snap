@@ -14,3 +14,14 @@
 
 }
 ---
+
+[TestSameKeySiblings - 1]
+{
+"a":{
+"b":[
+"Hello","World",,
+
+},
+
+}
+---

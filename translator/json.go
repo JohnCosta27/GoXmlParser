@@ -12,6 +12,10 @@ type JSONObjectValue struct {
   Map map[string]JSONValueTypes
 }
 
+type JSONArrayValue struct {
+  Array []JSONValueTypes
+}
+
 type JSONValueTypes interface {
   Print() string
 }
@@ -26,5 +30,13 @@ func (object JSONObjectValue) Print() string {
     returnString += fmt.Sprintf(`"%s":%s,%s`, k, v.Print(), "\n")
   }
   returnString += "\n}"
+  return returnString
+}
+
+func (array JSONArrayValue) Print() string {
+  returnString := "[\n"
+  for _, value := range array.Array {
+    returnString += value.Print() + ","
+  }
   return returnString
 }

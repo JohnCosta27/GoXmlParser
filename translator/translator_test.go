@@ -172,3 +172,54 @@ func TestNestingAndSibling(t *testing.T) {
 
   snaps.MatchSnapshot(t, json.Print())
 }
+
+func TestSameKeySiblings(t *testing.T) {
+  json, err := TranslateJson(`<a>
+    <b>Hello</b>
+    <b>World</b>
+  </a>`)
+  if (err != nil) {
+    t.Log(err)
+    t.FailNow()
+  }
+
+  jsonObjectA, ok := json.Map["a"].(JSONObjectValue)
+  if (!ok) {
+    t.Log("Expected `a` to be of type JSONObjectValue")
+    t.FailNow()
+  }
+
+  arrayB, ok := jsonObjectA.Map["b"].(JSONArrayValue)
+  if (!ok) {
+    t.Log("Expected `a` to be of type JSONArrayValue")
+    t.FailNow()
+  }
+
+  if (len(arrayB.Array) != 2) {
+    t.Logf("Expected `a` to have 2 elements, it instead has %d\n", len(arrayB.Array))
+  }
+
+  zeroIndex, ok := arrayB.Array[0].(JSONStringValue)
+  if (!ok) {
+    t.Log("Expected 0th index to be of type JSONStringValue")
+    t.FailNow()
+  }
+
+  firstIndex, ok := arrayB.Array[1].(JSONStringValue)
+  if (!ok) {
+    t.Log("Expected 1st index to be of type JSONStringValue")
+    t.FailNow()
+  }
+
+  if (zeroIndex.Value != "Hello") {
+    t.Logf("Expected `Hello`, but got %s", zeroIndex.Value)
+    t.FailNow()
+  }
+
+  if (firstIndex.Value != "World") {
+    t.Logf("Expected `World`, but got %s", zeroIndex.Value)
+    t.FailNow()
+  }
+
+  snaps.MatchSnapshot(t, json.Print())
+}
