@@ -17,13 +17,14 @@ type JSONValueTypes interface {
 }
 
 func (s JSONStringValue) Print() string {
-  return s.Value
+  return fmt.Sprintf(`"%s"`, s.Value)
 }
 
 func (object JSONObjectValue) Print() string {
-  returnString := ""
+  returnString := "{\n"
   for k, v := range object.Map {
-    returnString += fmt.Sprintf(`"%s":"%s",%s`, k, v.Print(), "\n")
+    returnString += fmt.Sprintf(`"%s":%s,%s`, k, v.Print(), "\n")
   }
+  returnString += "\n}"
   return returnString
 }

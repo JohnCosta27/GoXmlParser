@@ -2,6 +2,8 @@ package translator
 
 import (
 	"testing"
+
+	"github.com/gkampitakis/go-snaps/snaps"
 )
 
 func TestTranslateSimple(t *testing.T) {
@@ -138,4 +140,6 @@ func TestNestingAndSibling(t *testing.T) {
     t.Logf("Expected `b` to have 2 elements, it instead has %d\n", len(jsonObjectB.Map))
     t.FailNow()
   }
+
+  snaps.MatchSnapshot(t, json.Print())
 }

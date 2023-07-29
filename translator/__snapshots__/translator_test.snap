@@ -1,0 +1,16 @@
+
+[TestNestingAndSibling - 1]
+{
+"a":{
+"b":{
+"d":"hello",
+"e":"world",
+
+},
+"c":"World
+    ",
+
+},
+
+}
+---
