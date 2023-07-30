@@ -25,18 +25,21 @@ func (s JSONStringValue) Print() string {
 }
 
 func (object JSONObjectValue) Print() string {
-  returnString := "{\n"
+  returnString := "{"
   for k, v := range object.Map {
-    returnString += fmt.Sprintf(`"%s":%s,%s`, k, v.Print(), "\n")
+    returnString += fmt.Sprintf(`"%s":%s,`, k, v.Print())
   }
-  returnString += "\n}"
+  returnString = returnString[:len(returnString) - 1]
+  returnString += "}"
   return returnString
 }
 
 func (array JSONArrayValue) Print() string {
-  returnString := "[\n"
+  returnString := "["
   for _, value := range array.Array {
     returnString += value.Print() + ","
   }
+  returnString = returnString[:len(returnString) - 1]
+  returnString += "]"
   return returnString
 }
