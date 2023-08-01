@@ -2,33 +2,26 @@ package main
 
 import (
 	"fmt"
-	"os"
+	"syscall/js"
 
-	"johncosta.tech/xmlparse/lexer"
-	"johncosta.tech/xmlparse/parser"
-	"johncosta.tech/xmlparse/semantics"
+	"johncosta.tech/xmlparse/translator"
 )
 
+func XmlToJson() js.Func {
+  return js.FuncOf(func(this js.Value, p []js.Value) interface{} {
+    obj, err := translator.TranslateJson(p[0].String())
+    if (err != nil) {
+      return err.Error()
+    }
+
+    return obj.Print()
+  })
+}
+
 func main() {
+  c := make(chan bool)
+  fmt.Println("Hello Web Assembly from Go!")
 
-  data, err := os.ReadFile("input.txt")
-  if err != nil {
-    panic(err)
-  }
-
-  processedData := string(data);
-
-  tokenList := lexer.Tokenize(processedData)
-
-  ast, err := parser.Parse(tokenList)
-  if (err != nil) {
-    panic(err)
-  }
-
-  err = semantics.SemanticAnalysis(ast)
-  if (err != nil) {
-    panic(err)
-  }
-
-  fmt.Println("Successfully parsed and semantically checked!")
+  js.Global().Set("XmlToJson", XmlToJson())
+  <-c
 }
