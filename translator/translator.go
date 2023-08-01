@@ -44,16 +44,22 @@ func translateElement(element *AST.Element) JSONObjectValue {
 
     existingValue, exists := v.Map[content.Element.OpenTag.NAME.TokenContent]
     if (exists) {
-      array := JSONArrayValue{
-        Array: make([]JSONValueTypes, 0),
+      existingArray, isArray := existingValue.(JSONArrayValue)
+      if (!isArray) {
+        array := JSONArrayValue{
+          Array: make([]JSONValueTypes, 0),
+        }
+        array.Array = append(array.Array, existingValue)
+        array.Array = append(array.Array, translateContent(content.Element.ElementSuffix.Content))
+        v.Map[content.Element.OpenTag.NAME.TokenContent] = array
+      } else {
+        existingArray.Array = append(existingArray.Array, translateContent(content.Element.ElementSuffix.Content))
+        v.Map[content.Element.OpenTag.NAME.TokenContent] = existingArray
       }
-      array.Array = append(array.Array, existingValue)
-      array.Array = append(array.Array, translateContent(content.Element.ElementSuffix.Content))
-      v.Map[content.Element.OpenTag.NAME.TokenContent] = array
     } else {
       v.Map[content.Element.OpenTag.NAME.TokenContent] = translateContent(content.Element.ElementSuffix.Content)
     }
-
+    
     content = content.Content
   }
 

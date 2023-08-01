@@ -2,6 +2,7 @@ package translator
 
 import (
 	"fmt"
+	"log"
 )
 
 type JSONStringValue struct {
@@ -36,6 +37,7 @@ func (object JSONObjectValue) Print() string {
 
 func (array JSONArrayValue) Print() string {
   returnString := "["
+  log.Printf("%+v\n", array.Array)
   for _, value := range array.Array {
     returnString += value.Print() + ","
   }

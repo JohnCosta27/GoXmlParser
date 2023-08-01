@@ -146,3 +146,22 @@ func TestBigObject(t *testing.T) {
 
   snaps.MatchSnapshot(t, ast.Print(0))
 }
+
+func TestDoubleTesting(t *testing.T) {
+  ast, err := Parse(lexer.Tokenize(`
+    <a>
+      <c>Hello</c>
+      <b>
+        <d>123</d>
+        <d>321</d>
+      </b>
+    </a>
+  `))
+
+  if err != nil {
+    t.Error(err)
+    t.FailNow()
+  }
+
+  snaps.MatchSnapshot(t, ast.Print(0))
+}

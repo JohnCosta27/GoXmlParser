@@ -223,3 +223,46 @@ func TestSameKeySiblings(t *testing.T) {
 
   snaps.MatchSnapshot(t, json.Print())
 }
+
+func TestDeepNestingArray(t *testing.T) {
+  json, err := TranslateJson(`
+    <a>
+      <c>Hello</c>
+      <b>
+        <d>123</d>
+        <d>321</d>
+      </b>
+    </a>
+    `)
+
+  if (err != nil) {
+    t.Log(err)
+    t.FailNow()
+  }
+
+  snaps.MatchSnapshot(t, json.Print())
+}
+
+func TestMoreComplex(t *testing.T) {
+  json, err := TranslateJson(`<a>
+    <b>Hello</b>
+    <b>World</b>
+    <c>Another different value</c>
+    <b>dmsakmdsa</b>
+    <b>another</b>
+    <d>123</d>
+    <d>123</d>
+    <d>123</d>
+    <d>123</d>
+    <e>
+      <a>123</a>
+      <a>321</a>
+    </e>
+  </a>`)
+  if (err != nil) {
+    t.Log(err)
+    t.FailNow()
+  }
+
+  snaps.MatchSnapshot(t, json.Print())
+}

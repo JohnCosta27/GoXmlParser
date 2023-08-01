@@ -7,3 +7,11 @@
 [TestSameKeySiblings - 1]
 {"a":{"b":["Hello","World"]}}
 ---
+
+[TestMoreComplex - 1]
+{"a":{"b":["Hello","World","dmsakmdsa","another"],"c":"Another different value","d":["123","123","123","123"],"e":{"a":"123"}}}
+---
+
+[TestDeepNestingArray - 1]
+{"a":{"c":"Hello","b":{"d":"123"}}}
+---

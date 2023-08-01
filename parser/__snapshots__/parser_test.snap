@@ -413,3 +413,47 @@ Tag
   Name: a
 
 ---
+
+[TestDoubleTesting - 1]
+Tag
+ OpenTag
+ Name: a
+ ElementSuffixOpen
+  ContentElement
+   Tag
+    OpenTag
+    Name: c
+    ElementSuffixOpen
+     ContentData
+     Data: Hello
+     CloseTag
+     Name: c
+   ContentElement
+    Tag
+     OpenTag
+     Name: b
+     ElementSuffixOpen
+      ContentElement
+       Tag
+        OpenTag
+        Name: d
+        ElementSuffixOpen
+         ContentData
+         Data: 123
+         CloseTag
+         Name: d
+       ContentElement
+        Tag
+         OpenTag
+         Name: d
+         ElementSuffixOpen
+          ContentData
+          Data: 321
+          CloseTag
+          Name: d
+      CloseTag
+      Name: b
+  CloseTag
+  Name: a
+
+---
