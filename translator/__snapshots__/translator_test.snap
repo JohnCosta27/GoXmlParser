@@ -9,9 +9,15 @@
 ---
 
 [TestMoreComplex - 1]
-{"a":{"d":["123","123","123","123"],"e":{"a":["123","321"]},"b":["Hello","World","dmsakmdsa","another"],"c":"Another different value"}}
+{"a":{"b":["Hello","World","dmsakmdsa","another"],"c":"Another different value","d":["123","123","123","123"],"e":{"a":["123","321"]}}}
 ---
 
 [TestDeepNestingArray - 1]
 {"a":{"c":"Hello","b":{"d":["123","321"]}}}
+---
+
+[TestLooseDataElements - 1]
+{"a":{"#text":"Some text here
+    Some more Text
+  ","b":"Hello"}}
 ---

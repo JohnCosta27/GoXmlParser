@@ -267,3 +267,17 @@ func TestMoreComplex(t *testing.T) {
 
   snaps.MatchSnapshot(t, json.Print())
 }
+
+func TestLooseDataElements(t *testing.T) {
+  json, err := TranslateJson(`<a>
+    Some text here
+    <b>Hello</b>
+    Some more Text
+  </a>`)
+  if (err != nil) {
+    t.Log(err)
+    t.FailNow()
+  }
+
+  snaps.MatchSnapshot(t, json.Print())
+}
