@@ -183,6 +183,8 @@ func TestSameKeySiblings(t *testing.T) {
     t.FailNow()
   }
 
+  snaps.MatchSnapshot(t, json.Print())
+
   jsonObjectA, ok := json.Map["a"].(JSONObjectValue)
   if (!ok) {
     t.Log("Expected `a` to be of type JSONObjectValue")
@@ -197,6 +199,7 @@ func TestSameKeySiblings(t *testing.T) {
 
   if (len(arrayB.Array) != 2) {
     t.Logf("Expected `a` to have 2 elements, it instead has %d\n", len(arrayB.Array))
+    t.FailNow()
   }
 
   zeroIndex, ok := arrayB.Array[0].(JSONStringValue)
@@ -220,8 +223,6 @@ func TestSameKeySiblings(t *testing.T) {
     t.Logf("Expected `World`, but got %s", zeroIndex.Value)
     t.FailNow()
   }
-
-  snaps.MatchSnapshot(t, json.Print())
 }
 
 func TestDeepNestingArray(t *testing.T) {

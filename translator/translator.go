@@ -20,62 +20,58 @@ func TranslateJson(xmlString string) (JSONObjectValue, error) {
 
   jsonObject := translateElement(ast)
 
-  return jsonObject, nil
-}
-
-func translateElement(element *AST.Element) JSONObjectValue {
-  jsonObject := JSONObjectValue{
+  returnObject := JSONObjectValue{
     Map: make(map[string]JSONValueTypes),
   }
 
-  c := translateContent(element.ElementSuffix.Content)
-  jsonObject.Map[element.OpenTag.NAME.TokenContent] = c
+  returnObject.Map[ast.OpenTag.NAME.TokenContent] = jsonObject
 
-  if (element.ElementSuffix.Content.Type != AST.CONTENT_ELEMENT) {
-    return jsonObject
+  return returnObject, nil
+}
+
+func translateElement(element *AST.Element) JSONValueTypes {
+  
+  c := element.ElementSuffix.Content
+
+  // Base case: <a>Hello</a>
+  if (c.Type == AST.CONTENT_DATA) {
+    return JSONStringValue{
+      Value: c.DATA.TokenContent,
+    }
   }
 
-  content := element.ElementSuffix.Content.Content
-  for (content.Type == AST.CONTENT_ELEMENT) {
-    v, ok := c.(JSONObjectValue)
-    if (!ok) {
-      panic("Should always be json object value here")
-    }
+  jsonValue := JSONObjectValue{
+    Map: make(map[string]JSONValueTypes),
+  }
 
-    existingValue, exists := v.Map[content.Element.OpenTag.NAME.TokenContent]
+  for (c.Type != AST.EPSILLON) {
+    value, exists := jsonValue.Map[c.Element.OpenTag.NAME.TokenContent]
+
     if (exists) {
-      existingArray, isArray := existingValue.(JSONArrayValue)
-      if (!isArray) {
-        array := JSONArrayValue{
+      // Exists, turn check if array already, or turn into array
+
+      arrayValue, isArray := value.(JSONArrayValue)
+      if (isArray) {
+        // Array, append 
+        arrayValue.Array = append(arrayValue.Array, translateElement(c.Element))
+        jsonValue.Map[c.Element.OpenTag.NAME.TokenContent] = arrayValue
+      } else {
+        // Not array, turn into array
+        newArray := JSONArrayValue{
           Array: make([]JSONValueTypes, 0),
         }
-        array.Array = append(array.Array, existingValue)
-        array.Array = append(array.Array, translateContent(content.Element.ElementSuffix.Content))
-        v.Map[content.Element.OpenTag.NAME.TokenContent] = array
-      } else {
-        existingArray.Array = append(existingArray.Array, translateContent(content.Element.ElementSuffix.Content))
-        v.Map[content.Element.OpenTag.NAME.TokenContent] = existingArray
+
+        newArray.Array = append(newArray.Array, jsonValue.Map[c.Element.OpenTag.NAME.TokenContent], translateElement(c.Element))
+        jsonValue.Map[c.Element.OpenTag.NAME.TokenContent] = newArray
       }
+
     } else {
-      v.Map[content.Element.OpenTag.NAME.TokenContent] = translateContent(content.Element.ElementSuffix.Content)
+      // Does not exist
+      jsonValue.Map[c.Element.OpenTag.NAME.TokenContent] = translateElement(c.Element)
     }
-    
-    content = content.Content
+
+    c = c.Content
   }
 
-  return jsonObject
+  return jsonValue
 }
-
-func translateContent(content *AST.Content) JSONValueTypes {
-  if (content.Type == AST.CONTENT_DATA) {
-    return JSONStringValue{
-      Value: content.DATA.TokenContent,
-    }
-  } else if (content.Type == AST.CONTENT_ELEMENT) {
-    return translateElement(content.Element)
-  }
-  return JSONStringValue{
-    Value: "",
-  }
-}
-
