@@ -1,0 +1,248 @@
+
+[TestBigSample - 1]
+&AST.Element{
+    OpenTag: &AST.OpenTag{
+        Type:      "",
+        NAME:      lexer.Token{Token:"name", TokenContent:"SaveContactRestRequest"},
+        Attribute: &AST.Attribute{
+            Type:      "attribute-element",
+            NAME:      lexer.Token{Token:"name", TokenContent:"xmlns"},
+            STRING:    lexer.Token{Token:"string", TokenContent:"http://schemas.datacontract.org/2004/07/SmashFly.WebServices.ContactManagerService.v2"},
+            Attribute: &AST.Attribute{
+                Type:      "epsillon",
+                NAME:      lexer.Token{},
+                STRING:    lexer.Token{},
+                Attribute: (*AST.Attribute)(nil),
+            },
+        },
+    },
+    ElementSuffix: &AST.ElementSuffix{
+        Type:    "element-suffix-open",
+        Content: &AST.Content{
+            Type:    "content-element",
+            Element: &AST.Element{
+                OpenTag: &AST.OpenTag{
+                    Type:      "",
+                    NAME:      lexer.Token{Token:"name", TokenContent:"Contact"},
+                    Attribute: &AST.Attribute{
+                        Type:      "epsillon",
+                        NAME:      lexer.Token{},
+                        STRING:    lexer.Token{},
+                        Attribute: (*AST.Attribute)(nil),
+                    },
+                },
+                ElementSuffix: &AST.ElementSuffix{
+                    Type:    "element-suffix-open",
+                    Content: &AST.Content{
+                        Type:    "content-element",
+                        Element: &AST.Element{
+                            OpenTag: &AST.OpenTag{
+                                Type:      "",
+                                NAME:      lexer.Token{Token:"name", TokenContent:"Address1"},
+                                Attribute: &AST.Attribute{
+                                    Type:      "epsillon",
+                                    NAME:      lexer.Token{},
+                                    STRING:    lexer.Token{},
+                                    Attribute: (*AST.Attribute)(nil),
+                                },
+                            },
+                            ElementSuffix: &AST.ElementSuffix{
+                                Type:    "element-suffix-open",
+                                Content: &AST.Content{
+                                    Type:    "content-data",
+                                    Element: (*AST.Element)(nil),
+                                    DATA:    lexer.Token{Token:"data", TokenContent:"1 Main Street"},
+                                    Content: &AST.Content{
+                                        Type:    "epsillon",
+                                        Element: (*AST.Element)(nil),
+                                        DATA:    lexer.Token{},
+                                        Content: (*AST.Content)(nil),
+                                    },
+                                },
+                                CloseTag: &AST.CloseTag{
+                                    NAME: lexer.Token{Token:"name", TokenContent:"Address1"},
+                                },
+                            },
+                        },
+                        DATA:    lexer.Token{},
+                        Content: &AST.Content{
+                            Type:    "content-element",
+                            Element: &AST.Element{
+                                OpenTag: &AST.OpenTag{
+                                    Type:      "",
+                                    NAME:      lexer.Token{Token:"name", TokenContent:"Address2"},
+                                    Attribute: &AST.Attribute{
+                                        Type:      "epsillon",
+                                        NAME:      lexer.Token{},
+                                        STRING:    lexer.Token{},
+                                        Attribute: (*AST.Attribute)(nil),
+                                    },
+                                },
+                                ElementSuffix: &AST.ElementSuffix{
+                                    Type:    "element-suffix-open",
+                                    Content: &AST.Content{
+                                        Type:    "content-data",
+                                        Element: (*AST.Element)(nil),
+                                        DATA:    lexer.Token{Token:"data", TokenContent:"Unit 2"},
+                                        Content: &!%v(DEPTH EXCEEDED),
+                                    },
+                                    CloseTag: &AST.CloseTag{
+                                        NAME: lexer.Token{Token:"name", TokenContent:"Address2"},
+                                    },
+                                },
+                            },
+                            DATA:    lexer.Token{},
+                            Content: &AST.Content{
+                                Type:    "content-element",
+                                Element: &AST.Element{
+                                    OpenTag: &AST.OpenTag{
+                                        Type:      "",
+                                        NAME:      lexer.Token{Token:"name", TokenContent:"City"},
+                                        Attribute: &!%v(DEPTH EXCEEDED),
+                                    },
+                                    ElementSuffix: &AST.ElementSuffix{
+                                        Type:     "element-suffix-open",
+                                        Content:  &!%v(DEPTH EXCEEDED),
+                                        CloseTag: &!%v(DEPTH EXCEEDED),
+                                    },
+                                },
+                                DATA:    lexer.Token{},
+                                Content: &AST.Content{
+                                    Type:    "content-element",
+                                    Element: &AST.Element{
+                                        OpenTag:       &!%v(DEPTH EXCEEDED),
+                                        ElementSuffix: &!%v(DEPTH EXCEEDED),
+                                    },
+                                    DATA:    lexer.Token{},
+                                    Content: &AST.Content{
+                                        Type:    "content-element",
+                                        Element: &!%v(DEPTH EXCEEDED),
+                                        DATA:    lexer.Token{},
+                                        Content: &!%v(DEPTH EXCEEDED),
+                                    },
+                                },
+                            },
+                        },
+                    },
+                    CloseTag: &AST.CloseTag{
+                        NAME: lexer.Token{Token:"name", TokenContent:"Contact"},
+                    },
+                },
+            },
+            DATA:    lexer.Token{},
+            Content: &AST.Content{
+                Type:    "content-element",
+                Element: &AST.Element{
+                    OpenTag: &AST.OpenTag{
+                        Type:      "",
+                        NAME:      lexer.Token{Token:"name", TokenContent:"ContactDBId"},
+                        Attribute: &AST.Attribute{
+                            Type:      "epsillon",
+                            NAME:      lexer.Token{},
+                            STRING:    lexer.Token{},
+                            Attribute: (*AST.Attribute)(nil),
+                        },
+                    },
+                    ElementSuffix: &AST.ElementSuffix{
+                        Type:    "element-suffix-open",
+                        Content: &AST.Content{
+                            Type:    "content-data",
+                            Element: (*AST.Element)(nil),
+                            DATA:    lexer.Token{Token:"data", TokenContent:"99999999"},
+                            Content: &AST.Content{
+                                Type:    "epsillon",
+                                Element: (*AST.Element)(nil),
+                                DATA:    lexer.Token{},
+                                Content: (*AST.Content)(nil),
+                            },
+                        },
+                        CloseTag: &AST.CloseTag{
+                            NAME: lexer.Token{Token:"name", TokenContent:"ContactDBId"},
+                        },
+                    },
+                },
+                DATA:    lexer.Token{},
+                Content: &AST.Content{
+                    Type:    "content-element",
+                    Element: &AST.Element{
+                        OpenTag: &AST.OpenTag{
+                            Type:      "",
+                            NAME:      lexer.Token{Token:"name", TokenContent:"Password"},
+                            Attribute: &AST.Attribute{
+                                Type:      "epsillon",
+                                NAME:      lexer.Token{},
+                                STRING:    lexer.Token{},
+                                Attribute: (*AST.Attribute)(nil),
+                            },
+                        },
+                        ElementSuffix: &AST.ElementSuffix{
+                            Type:    "element-suffix-open",
+                            Content: &AST.Content{
+                                Type:    "content-data",
+                                Element: (*AST.Element)(nil),
+                                DATA:    lexer.Token{Token:"data", TokenContent:"YourPassword"},
+                                Content: &AST.Content{
+                                    Type:    "epsillon",
+                                    Element: (*AST.Element)(nil),
+                                    DATA:    lexer.Token{},
+                                    Content: (*AST.Content)(nil),
+                                },
+                            },
+                            CloseTag: &AST.CloseTag{
+                                NAME: lexer.Token{Token:"name", TokenContent:"Password"},
+                            },
+                        },
+                    },
+                    DATA:    lexer.Token{},
+                    Content: &AST.Content{
+                        Type:    "content-element",
+                        Element: &AST.Element{
+                            OpenTag: &AST.OpenTag{
+                                Type:      "",
+                                NAME:      lexer.Token{Token:"name", TokenContent:"UserName"},
+                                Attribute: &AST.Attribute{
+                                    Type:      "epsillon",
+                                    NAME:      lexer.Token{},
+                                    STRING:    lexer.Token{},
+                                    Attribute: (*AST.Attribute)(nil),
+                                },
+                            },
+                            ElementSuffix: &AST.ElementSuffix{
+                                Type:    "element-suffix-open",
+                                Content: &AST.Content{
+                                    Type:    "content-data",
+                                    Element: (*AST.Element)(nil),
+                                    DATA:    lexer.Token{Token:"data", TokenContent:"YourUsername"},
+                                    Content: &AST.Content{
+                                        Type:    "epsillon",
+                                        Element: (*AST.Element)(nil),
+                                        DATA:    lexer.Token{},
+                                        Content: (*AST.Content)(nil),
+                                    },
+                                },
+                                CloseTag: &AST.CloseTag{
+                                    NAME: lexer.Token{Token:"name", TokenContent:"UserName"},
+                                },
+                            },
+                        },
+                        DATA:    lexer.Token{},
+                        Content: &AST.Content{
+                            Type:    "epsillon",
+                            Element: (*AST.Element)(nil),
+                            DATA:    lexer.Token{},
+                            Content: (*AST.Content)(nil),
+                        },
+                    },
+                },
+            },
+        },
+        CloseTag: &AST.CloseTag{
+            NAME: lexer.Token{Token:"name", TokenContent:"SaveContactRestRequest"},
+        },
+    },
+}
+---
+
+[TestBigSample - 2]
+{"SaveContactRestRequest":{"Contact":{"Experience":{"ContactExperience":[{"JobTitle":"Senior Engineer","Supervisor":"Bob Smith","SupervisorTitle":"CTO","State":"MA","Company":"3COM","EndMonth":"2","EndYear":"1998","StartMonth":"1","StartYear":"1992"},{"StartMonth":"1","StartYear":"2003","Company":"EMC","EndMonth":"7","EndYear":"2005","JobTitle":"Business Analyst"}]},"MobileNumber":"9787931633","UserScore":"2.56743233E+15","SecondarySource":"Indeed","_IsApplicantImpl":"true","Address1":"1 Main Street","FileToFolderPath":"Specialized Sourcing/Veterans","JobListStatusNote":"Great candidate","Phone":"978-342-3442","ProfileURL":"https://www.linkedin.com/company/846055","ResumeBin":{"Content":"Some Content\n            ","Name":"Resume.txt"},"CanReceiveEmail":"true","CanReceiveSMS":"true","EducationCurrent":"BachelorofScience","HomeEmail":"gwashington@aol.com","_CanReceiveSMSImpl":"true","ContactListId":"999999999","JobId":"LOS99710","State":"MA","UDF":{"ContactUDFData":[{"FieldName":"ShortTextField4","Values":{"string":["CivilEngineering","ElectricalEngineering"]}},{"FieldName":"ShortTextField7","Values":{"string":["Construction","Facilities_Mgmt"]}}]},"Company":"3COM","WebURL":"http://www.smashfly.com","Resume":"3200 Mount Vernon Hwy, Mt Vernon, VA SUMMARY: Former General\n        ","WorkPhone":"781-222-4422","Address2":"Unit 2","Country":"US","Education":{"ContactEducation":[{"Degree":"Bachelors","GradYear":"1988","HasGraduated":"true","Major":"Electrical Engineering","School":"MIT"},{"Degree":"Masters","GradYear":"1992","HasGraduated":"true","Major":"Business","School":"Harvard"}]},"Email":"gwashington7@invalidemail.com","LastName":"Washington","Notes":{"ContactNote":{"Note":"George was a good president","Reminder":"2013-08-31T11:20:00"}},"JobTitle":"Senior Engineer","Tags":{"ContactTag":[{"Access":"Public","Tag":"Engineering"},{"Access":"Public","Tag":"Java"}]},"City":"Boston","EventListId":"999999999","ExperienceCurrent":"Experienced","FacebookProfile":"https://www.facebook.com/smashflytechnologies","IsEmployee":"true","JobListStatus":"Interviewing","TwitterProfile":"https://twitter.com/smashfly","_CanReceiveEmailImpl":"true","ExternalResumeId":"9999999","FirstName":"George","JobCode":"19","PostalCode":"01775","TDSearchFolder":"Text goes here","IsApplicant":"true"},"ContactDBId":"99999999","Password":"YourPassword","UserName":"YourUsername"}}
+---

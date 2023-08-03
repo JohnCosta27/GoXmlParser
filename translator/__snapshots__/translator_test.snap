@@ -1,7 +1,6 @@
 
 [TestNestingAndSibling - 1]
-{"a":{"b":{"d":"hello","e":"world"},"c":"World
-    "}}
+{"a":{"c":"World\n    ","b":{"d":"hello","e":"world"}}}
 ---
 
 [TestSameKeySiblings - 1]
@@ -17,7 +16,5 @@
 ---
 
 [TestLooseDataElements - 1]
-{"a":{"#text":"Some text here
-    Some more Text
-  ","b":"Hello"}}
+{"a":{"#text":"Some text here\n    Some more Text\n  ","b":"Hello"}}
 ---

@@ -1,15 +1,4 @@
-const goWasm = new Go();
-
-WebAssembly.instantiateStreaming(
-  fetch("xml2json.wasm"),
-  goWasm.importObject
-).then((result) => {
-  goWasm.run(result.instance);
-});
-
-const type = "go";
-
-const biggerXml = `<SaveContactRestRequest xmlns="http://schemas.datacontract.org/2004/07/SmashFly.WebServices.ContactManagerService.v2">
+<SaveContactRestRequest xmlns="http://schemas.datacontract.org/2004/07/SmashFly.WebServices.ContactManagerService.v2">
     <Contact>
         <Address1>1 Main Street</Address1>
         <Address2>Unit 2</Address2>
@@ -132,26 +121,4 @@ const biggerXml = `<SaveContactRestRequest xmlns="http://schemas.datacontract.or
     <ContactDBId>99999999</ContactDBId>
     <Password>YourPassword</Password>
     <UserName>YourUsername</UserName>
-</SaveContactRestRequest>`;
-
-function ParseXml(xml) {
-  if (type === "go") {
-    const json = XmlToJson(xml);
-    return JSON.parse(json);
-  } else {
-    return xml2json(xml);
-  }
-}
-
-function RunTest() {
-  const start = new Date().getTime();
-  for (let x = 0; x < 100; x++) {
-    if (x % 10 === 0) {
-      // console.log(x);
-    }
-    const json = ParseXml(biggerXml);
-  }
-  const end = new Date().getTime();
-
-  console.log("Result: ", end - start + "ms");
-}
+</SaveContactRestRequest>

@@ -23,7 +23,7 @@ func Tokenize(input string) TokenList {
   dataRegex := regexp.MustCompile("[^<>]*<")
 
   stringLiteralRegex := regexp.MustCompile(`"[^"]*"`)
-  nameRegex := regexp.MustCompile("[A-z]+")
+  nameRegex := regexp.MustCompile("[A-z0-9]+")
 
   whitespaceRegex := regexp.MustCompile("[\\s\n]+")
 
