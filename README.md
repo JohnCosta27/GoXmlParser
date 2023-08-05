@@ -12,8 +12,8 @@ Implementation of an XML Parser using recursive descent. This was a learning pro
 
 ## Relevant Links
 
-- (Blog Post)[https://johncosta.tech/posts/i-build-a-parser/]
-- (Youtube Video)[https://www.youtube.com/watch?v=TDg4Csjbm0A&ab_channel=JohnCosta]
+- [Blog Post](https://johncosta.tech/posts/i-build-a-parser/)
+- [Youtube Video](https://www.youtube.com/watch?v=TDg4Csjbm0A&ab_channel=JohnCosta)
 
 ## Future Work
 
