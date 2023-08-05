@@ -8,6 +8,7 @@ Implementation of an XML Parser using recursive descent. This was a learning pro
 - Translation to JSON.
 - Pretty print AST.
 - Semantic Analysis.
+- WASM! Runs on the web browser.
 
 ## Relevant Links
 
