@@ -1,0 +1,10 @@
+<hello>
+  <world>123</world>
+  <world>543</world>
+  <world attribute="this is a string">321</world>
+  <something>
+    <world>123</world>
+    <world>543</world>
+    <world attribute="this is a string">321</world>
+  </something>
+</hello>
